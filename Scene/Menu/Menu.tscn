@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://rf0icnerlvei"]
+
+[ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="1_c18ru"]
+[ext_resource type="Script" uid="uid://dj8ch2ynwgw63" path="res://Scene/Menu/menu.gd" id="1_mw8f1"]
+
+[sub_resource type="Curve" id="Curve_mw8f1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25137365, 0.81505895), 0.0, 0.0, 0, 0, Vector2(0.4986264, 0.7549155), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Shader" id="Shader_spip6"]
+code = "shader_type canvas_item;
+
+uniform float open_amount : hint_range(0.0, 1.0, 0.01);
+uniform float edge_blur_amount : hint_range(0.0, 1.0, 0.01);
+uniform vec3 color : source_color;
+
+void fragment() {
+	float blur = edge_blur_amount * 0.5;
+	float v = open_amount + edge_blur_amount * open_amount;
+	float d1 = (2.0 * v * pow(UV.x - 0.5, 2.0) - v/2.0 + 0.5) - (UV.y+v/(2.0));
+	float d2 = -(-2.0 * v * pow(UV.x - 0.5, 2.0) + v/2.0 + 0.5) + (UV.y-v/(2.0));
+	float d = max(d1, d2);
+
+	if (d > -blur){
+		COLOR = vec4(color, (-d-blur)/-blur);
+	} else {
+		COLOR = vec4(0.0);
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c18ru"]
+shader = SubResource("Shader_spip6")
+shader_parameter/open_amount = 0.999999977648
+shader_parameter/edge_blur_amount = 0.0999999977648
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="Shader" id="Shader_c18ru"]
+code = "shader_type canvas_item;
+uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
+uniform float blur: hint_range(0.0, 1.0, 0.1);
+
+const float BLUR_MAX = 5.0;
+void fragment() {
+	float fixed_blur = blur * BLUR_MAX;
+	COLOR = textureLod(SCREEN_TEXTURE, SCREEN_UV, fixed_blur);
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the CanvasItem.
+//	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mw8f1"]
+shader = SubResource("Shader_c18ru")
+shader_parameter/blur = 0.0
+
+[node name="Menu" type="Node2D" unique_id=1192111324]
+script = ExtResource("1_mw8f1")
+blink_curve = SubResource("Curve_mw8f1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1618166975]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1761319767]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control" unique_id=564352089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_c18ru")
+
+[node name="Blink" type="ColorRect" parent="CanvasLayer/Control" unique_id=1046695740]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_c18ru")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Blur" type="ColorRect" parent="CanvasLayer/Control" unique_id=797571840]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_mw8f1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
