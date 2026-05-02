@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cxcxgameloop"]
+
+[ext_resource type="Script" path="res://Scene/GameLoop/GameLoop.gd" id="1_loop"]
+
+[node name="GameLoop" type="Node"]
+script = ExtResource("1_loop")

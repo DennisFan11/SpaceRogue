@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cx4xship000"]
+
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/ShipManager/Ship.gd" id="1_a"]
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/ShipInput.gd" id="2_b"]
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/ThrusterController.gd" id="3_c"]
+
+[node name="Ship" type="Node2D"]
+script = ExtResource("1_a")
+
+[node name="PhysicsBody" type="RigidBody2D" parent="."]
+
+[node name="ShipInput" type="Node" parent="PhysicsBody"]
+script = ExtResource("2_b")
+
+[node name="ThrusterController" type="Node" parent="PhysicsBody"]
+script = ExtResource("3_c")
+
+[node name="BlocksContainer" type="Node2D" parent="PhysicsBody"]
