@@ -19,27 +19,27 @@ func _ready() -> void:
 	DI.register("_player_manager", self)
 
 func _process(delta: float) -> void:
-	# 1. 調解攝影機跟隨
+	# 攝影機縮放插值留在 _process 以獲得最高流暢度
+	if main_camera:
+		main_camera.zoom = main_camera.zoom.lerp(zoom_target, 10.0 * delta)
+
+func _physics_process(delta: float) -> void:
+	# 攝影機位置與旋轉跟隨物理物件，必須在 _physics_process 中處理以避免抖動
 	if main_camera:
 		var target_pos = main_camera.global_position
 		var target_rot = 0.0
 		var lerp_speed = 5.0
 		
 		if is_piloting and current_piloted_core:
-			# 對於 2x2 的 CoreBlock，中心點位於局部座標 (32, 32) 處
-			# 我們將此偏移旋轉後加到全域座標上
 			var offset = Vector2(32, 32).rotated(current_piloted_core.global_rotation)
 			target_pos = current_piloted_core.global_position + offset
 			target_rot = current_piloted_core.global_rotation
-			lerp_speed = 10.0 # 駕駛飛船時跟隨速度加快
+			lerp_speed = 10.0
 		elif current_player_instance:
 			target_pos = current_player_instance.global_position
 			
 		main_camera.global_position = main_camera.global_position.lerp(target_pos, lerp_speed * delta)
 		main_camera.rotation = lerp_angle(main_camera.rotation, target_rot, 10.0 * delta)
-		
-		# 2. 攝影機縮放
-		main_camera.zoom = main_camera.zoom.lerp(zoom_target, 10.0 * delta)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# 攝影機縮放
