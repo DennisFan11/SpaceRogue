@@ -11,7 +11,13 @@ const BLOCK_SIZE: float = 64.0
 		queue_redraw()
 
 func _draw() -> void:
-	# 由於目前沒有實體視覺組件，先用紫色帶邊框的方形替代顯示
+	# 如果在編輯器中，或者方塊沒有實體視覺組件時，才繪製紫色替代框
+	# 或者 DebugSetting.show_polyomino_shape 為 true 時強制顯示
+	if not Engine.is_editor_hint() and not DebugSetting.show_polyomino_shape:
+		var block = get_parent()
+		if block is BlockBase and block.visual and block.visual.get_child_count() > 0:
+			return
+
 	for cell in occupied_cells:
 		var top_left = Vector2(cell.x * BLOCK_SIZE - BLOCK_SIZE/2, cell.y * BLOCK_SIZE - BLOCK_SIZE/2)
 		var rect = Rect2(top_left, Vector2(BLOCK_SIZE, BLOCK_SIZE))

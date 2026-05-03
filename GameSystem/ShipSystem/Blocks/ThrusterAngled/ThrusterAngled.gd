@@ -3,8 +3,8 @@ class_name ThrusterAngled
 
 ## 15 度角推進器：1x1，提供偏轉 15° 的推力
 ## 用於複雜非對稱船體的推力補償
-const ANGLE_OFFSET_DEG: float = 15.0
-var thrust_force: float = 600.0
+@export var angle_offset_deg: float = 15.0
+@export var thrust_force: float = 600.0
 
 var current_activation: float = 0.0
 var current_gimbal: float = 0.0
@@ -25,7 +25,7 @@ func _draw() -> void:
 func apply_thrust(physics_body: RigidBody2D, amount: float = 1.0, angle_offset_deg: float = 0.0) -> void:
 	if not physics_body or amount <= 0.0: return
 	current_activation = amount
-	current_gimbal = clamp(angle_offset_deg, -ANGLE_OFFSET_DEG, ANGLE_OFFSET_DEG)
+	current_gimbal = clamp(angle_offset_deg, -angle_offset_deg, angle_offset_deg)
 	
 	var local_dir = Vector2.UP.rotated(deg_to_rad(current_gimbal))
 	var world_dir = local_dir.rotated(global_rotation)

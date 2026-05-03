@@ -30,6 +30,12 @@ folder_colors={
 "res://Scene/": "purple"
 }
 
+[importer_defaults]
+
+texture={
+&"svg/scale": 8.0
+}
+
 [input]
 
 interact={
@@ -51,5 +57,5 @@ build_menu={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=2
 rendering_device/driver.windows="d3d12"
+viewport/hdr_2d=true

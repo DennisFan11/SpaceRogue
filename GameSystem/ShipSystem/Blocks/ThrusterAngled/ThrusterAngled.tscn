@@ -6,7 +6,9 @@
 
 [node name="ThrusterAngled" unique_id=1365761297 instance=ExtResource("1_base")]
 script = ExtResource("2_ta")
+angle_offset_deg = 15.0
+thrust_force = 180.0
 
-[node name="Angle15" type="Sprite2D" parent="." index="4" unique_id=1121718500]
-scale = Vector2(2, 2)
+[node name="Angle15" type="Sprite2D" parent="Visual" index="0" unique_id=1121718500]
+scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_dv7d3")

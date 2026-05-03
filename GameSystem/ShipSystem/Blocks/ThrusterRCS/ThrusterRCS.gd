@@ -3,7 +3,7 @@ class_name ThrusterRCS
 
 ## RCS 姿態控制推進器：1x1，支援全向微調推力
 ## 通常由 ThrusterController 依質心差計算分配推力
-var thrust_force: float = 200.0
+@export var thrust_force: float = 200.0
 
 var current_activation: float = 0.0
 var _current_direction: Vector2 = Vector2.ZERO

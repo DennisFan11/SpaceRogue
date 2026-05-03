@@ -3,7 +3,7 @@ class_name ThrusterFixed
 
 ## 單向固定推進器：2x1，只往 -Y (上) 方向噴射
 ## 旋轉後噴射方向隨 rotation_degrees_snap 改變
-var thrust_force: float = 800.0
+@export var thrust_force: float = 800.0
 
 var current_activation: float = 0.0
 
