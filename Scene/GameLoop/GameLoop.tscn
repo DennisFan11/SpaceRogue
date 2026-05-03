@@ -1,6 +1,32 @@
 [gd_scene format=3 uid="uid://cxcxgameloop"]
 
-[ext_resource type="Script" path="res://Scene/GameLoop/GameLoop.gd" id="1_loop"]
+[ext_resource type="Script" uid="uid://brtbypsmk3cgx" path="res://Scene/GameLoop/GameLoop.gd" id="1_loop"]
+[ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="2_dvwha"]
+[ext_resource type="Script" uid="uid://ttvsybqyx5cq" path="res://GameSystem/PlayerSystem/PlayerManager.gd" id="2_pm"]
+[ext_resource type="Script" uid="uid://cq3n5stuisgy6" path="res://GameSystem/ShipSystem/ShipManager/ShipBuilder.gd" id="3_sb"]
+[ext_resource type="PackedScene" uid="uid://cxcxuibuild" path="res://GameSystem/ShipSystem/UI/BuildMenu.tscn" id="4_ui"]
+[ext_resource type="Script" uid="uid://dqjcxke2e51i1" path="res://GameSystem/ShipSystem/ShipManager/ShipManager.gd" id="5_sm"]
 
-[node name="GameLoop" type="Node"]
+[node name="GameLoop" type="Node" unique_id=2042068625]
 script = ExtResource("1_loop")
+
+[node name="BG" type="Polygon2D" parent="." unique_id=1371463443]
+texture_repeat = 2
+color = Color(0.32284462, 0.21168864, 0.39454663, 1)
+texture = ExtResource("2_dvwha")
+polygon = PackedVector2Array(-65372, -27862, 89252, -31574, 91556, 37034, -69468, 35626)
+
+[node name="ShipManager" type="Node" parent="." unique_id=1102009602]
+script = ExtResource("5_sm")
+
+[node name="PlayerManager" type="Node" parent="." unique_id=653058733]
+script = ExtResource("2_pm")
+
+[node name="ShipBuilder" type="Node" parent="." unique_id=993469890]
+script = ExtResource("3_sb")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=635959854]
+
+[node name="BuildMenu" parent="CanvasLayer" unique_id=741489957 instance=ExtResource("4_ui")]
