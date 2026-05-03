@@ -3,6 +3,7 @@ class_name BlockBase
 
 @export var cost: BlockCost
 @export var rotation_degrees_snap: int = 0
+@export var mass: float = 1.0
 
 var grid_position: Vector2i = Vector2i.ZERO
 

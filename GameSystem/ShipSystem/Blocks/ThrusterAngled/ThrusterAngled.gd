@@ -22,10 +22,10 @@ func _draw() -> void:
 		var exhaust_dir = -local_thrust_dir * (thrust_force * current_activation * DebugSetting.thruster_vector_scale)
 		draw_line(Vector2.ZERO, exhaust_dir, Color(1, 0.5, 0, 1), 2.0)
 
-func apply_thrust(physics_body: RigidBody2D, amount: float = 1.0, angle_offset_deg: float = 0.0) -> void:
+func apply_thrust(physics_body: RigidBody2D, amount: float = 1.0, target_gimbal: float = 0.0) -> void:
 	if not physics_body or amount <= 0.0: return
 	current_activation = amount
-	current_gimbal = clamp(angle_offset_deg, -angle_offset_deg, angle_offset_deg)
+	current_gimbal = clamp(target_gimbal, -angle_offset_deg, angle_offset_deg)
 	
 	var local_dir = Vector2.UP.rotated(deg_to_rad(current_gimbal))
 	var world_dir = local_dir.rotated(global_rotation)

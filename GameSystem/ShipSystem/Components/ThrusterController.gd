@@ -7,10 +7,7 @@ class_name ThrusterController
 
 # 參數調整
 const L_SCALE = 100.0 # 像素轉公尺，避免 Torque 數值遠大於 Force 造成梯度爆炸
-const ITERATIONS = 20
-
-var _target_heading: float = 0.0
-var _heading_locked: bool = false
+const ITERATIONS = 40
 
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(ship_input) or not is_instance_valid(physics_body): return
@@ -18,10 +15,13 @@ func _physics_process(delta: float) -> void:
 	var virtual_thrusters: Array[Dictionary] = []
 	var all_blocks = ship.blocks_container.get_children()
 	
+	# 取得當前全局質心 (CoM)
+	var world_com = physics_body.global_transform.origin + physics_body.center_of_mass.rotated(physics_body.global_rotation)
+	
 	# 1. 建立虛擬推進器矩陣
 	for block in all_blocks:
 		if block is BlockBase and block.state_machine.is_built():
-			_register_virtual_thrusters(block, virtual_thrusters)
+			_register_virtual_thrusters(block, virtual_thrusters, world_com)
 			
 	if virtual_thrusters.is_empty(): return
 	
@@ -39,13 +39,12 @@ func _physics_process(delta: float) -> void:
 	# 2. 定義目標向量 E_req
 	var E_req = _calculate_target_demand(max_F, max_T)
 	
-	# 3. 投影梯度下降最佳化 (Projected Gradient Descent)
+	# 3. 最佳化分配 (Unbounded Gradient Descent)
 	var N = virtual_thrusters.size()
 	var a: Array[float] = []
 	a.resize(N)
 	a.fill(0.0)
 	
-	# 只針對 Force 計算學習率
 	var lr = 1.0 / (sum_F_sq + 1.0)
 	
 	for step in range(ITERATIONS):
@@ -61,7 +60,7 @@ func _physics_process(delta: float) -> void:
 			var grad_F = err_F.dot(vt_F)
 			a[i] -= lr * grad_F
 			
-		# 步驟 B: 針對力矩 (Torque) 進行零空間投影 (嚴格強制力矩滿足需求，防止旋轉飄移)
+		# 步驟 B: 針對力矩 (Torque) 進行投影 (嚴格滿足力矩需求)
 		var current_T = 0.0
 		var sum_T_sq = 0.0
 		for i in range(N):
@@ -73,15 +72,39 @@ func _physics_process(delta: float) -> void:
 			for i in range(N):
 				a[i] -= err_T * virtual_thrusters[i].V.z / sum_T_sq
 				
-		# 步驟 C: 限制物理邊界
+		# 步驟 C: 僅非負約束 (無上限限制)
 		for i in range(N):
-			a[i] = clamp(a[i], 0.0, 1.0)
+			a[i] = max(a[i], 0.0)
 			
-	# 4. 推力應用與還原
-	_apply_allocations(virtual_thrusters, a)
+	# 4. 全局等比例縮放 (Global Scaling)
+	# 為了維持力矩與力的比例，當任何組件超出極限時，縮放全體輸出
+	var alloc_map = _group_allocations(virtual_thrusters, a)
+	var global_max = 1.0
+	for block in alloc_map:
+		var allocs = alloc_map[block]
+		var block_a = 0.0
+		if block is ThrusterFixed:
+			block_a = allocs[0].a
+		elif block is ThrusterAngled:
+			var v_l = Vector2.UP.rotated(deg_to_rad(-15.0)) * allocs[0].a
+			var v_r = Vector2.UP.rotated(deg_to_rad(15.0)) * allocs[1].a
+			block_a = (v_l + v_r).length()
+		elif block is ThrusterRCS:
+			var v_sum = Vector2.ZERO
+			for al in allocs:
+				v_sum += al.vt.dir * al.a
+			block_a = v_sum.length()
+		global_max = max(global_max, block_a)
+		
+	if global_max > 1.0:
+		for i in range(N):
+			a[i] /= global_max
+			
+	# 5. 推力應用
+	_apply_allocations(alloc_map)
 
-func _register_virtual_thrusters(block: BlockBase, list: Array[Dictionary]) -> void:
-	var pos = block.global_position - physics_body.global_position
+func _register_virtual_thrusters(block: BlockBase, list: Array[Dictionary], world_com: Vector2) -> void:
+	var pos = block.global_position - world_com
 	
 	if block is ThrusterFixed:
 		var F = Vector2.UP.rotated(block.global_rotation) * block.thrust_force
@@ -89,17 +112,14 @@ func _register_virtual_thrusters(block: BlockBase, list: Array[Dictionary]) -> v
 		list.append({ "block": block, "type": "fixed", "V": Vector3(F.x, F.y, T) })
 		
 	elif block is ThrusterAngled:
-		# 左極限 (-15度)
 		var F_l = Vector2.UP.rotated(block.global_rotation + deg_to_rad(-15.0)) * block.thrust_force
 		var T_l = pos.cross(F_l) / L_SCALE
 		list.append({ "block": block, "type": "angled_l", "V": Vector3(F_l.x, F_l.y, T_l) })
-		# 右極限 (+15度)
 		var F_r = Vector2.UP.rotated(block.global_rotation + deg_to_rad(15.0)) * block.thrust_force
 		var T_r = pos.cross(F_r) / L_SCALE
 		list.append({ "block": block, "type": "angled_r", "V": Vector3(F_r.x, F_r.y, T_r) })
 		
 	elif block is ThrusterRCS:
-		# RCS 分解為四個方向的虛擬推進器 (以局部坐標為基準)
 		var dirs = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 		for d in dirs:
 			var F = d.rotated(physics_body.global_rotation) * block.thrust_force
@@ -114,49 +134,32 @@ func _calculate_target_demand(max_F: float, max_T: float) -> Vector3:
 	var lin_v = physics_body.linear_velocity
 	var ang_v = physics_body.angular_velocity
 	
-	# 將全局線速度轉為相對於飛船的局部速度
 	var local_v = physics_body.global_transform.basis_xform_inv(lin_v)
 	var desired_local_force = Vector2.ZERO
 	
-	# 處理 X 軸 (左右平移與側滑煞車)
+	# 平移需求
 	if abs(input_move.x) > 0.01:
-		desired_local_force.x = input_move.x * max_F
+		desired_local_force.x = input_move.x * max_F * 0.8
 	elif auto_brake:
-		desired_local_force.x = clamp(-local_v.x * (max_F / 100.0), -max_F, max_F)
+		desired_local_force.x = clamp(-local_v.x * (max_F / 50.0), -max_F, max_F)
 		
-	# 處理 Y 軸 (前後平移與前進煞車)
 	if abs(input_move.y) > 0.01:
-		desired_local_force.y = input_move.y * max_F
+		desired_local_force.y = input_move.y * max_F * 0.8
 	elif auto_brake:
-		desired_local_force.y = clamp(-local_v.y * (max_F / 100.0), -max_F, max_F)
+		desired_local_force.y = clamp(-local_v.y * (max_F / 50.0), -max_F, max_F)
 		
-	# 轉回全局受力方向
 	var desired_force = physics_body.global_transform.basis_xform(desired_local_force)
 	
-	# 處理旋轉與姿態鎖定 (Heading Lock)
+	# 旋轉需求 (移除角度修正，僅保留阻尼)
 	var desired_torque = 0.0
 	if abs(input_rot) > 0.01:
 		desired_torque = input_rot * max_T
-		_heading_locked = false
-	else:
-		if not _heading_locked and abs(ang_v) < 0.05:
-			# 當角速度趨近於零且沒有輸入時，鎖定當前角度
-			_target_heading = physics_body.global_rotation
-			_heading_locked = true
-			
-		if _heading_locked:
-			# 姿態鎖定模式：強力修正任何偏移
-			var angle_diff = wrapf(physics_body.global_rotation - _target_heading, -PI, PI)
-			var correction = -angle_diff * 5.0 - ang_v * 2.0
-			desired_torque = clamp(correction * max_T, -max_T, max_T)
-		elif auto_brake:
-			# 純減速模式：只抵銷角速度
-			desired_torque = clamp(-ang_v * (max_T / 1.0), -max_T, max_T)
+	elif auto_brake:
+		desired_torque = clamp(-ang_v * (max_T / 0.5), -max_T, max_T)
 		
 	return Vector3(desired_force.x, desired_force.y, desired_torque)
 
-func _apply_allocations(virtual_thrusters: Array[Dictionary], a: Array[float]) -> void:
-	# 先按方塊聚合結果
+func _group_allocations(virtual_thrusters: Array[Dictionary], a: Array[float]) -> Dictionary:
 	var alloc_map: Dictionary = {}
 	for i in range(virtual_thrusters.size()):
 		var vt = virtual_thrusters[i]
@@ -164,8 +167,9 @@ func _apply_allocations(virtual_thrusters: Array[Dictionary], a: Array[float]) -
 		if not alloc_map.has(block):
 			alloc_map[block] = []
 		alloc_map[block].append({ "vt": vt, "a": a[i] })
-		
-	# 執行物理應用
+	return alloc_map
+
+func _apply_allocations(alloc_map: Dictionary) -> void:
 	for block in alloc_map:
 		var allocs = alloc_map[block]
 		if block is ThrusterFixed:
@@ -176,19 +180,19 @@ func _apply_allocations(virtual_thrusters: Array[Dictionary], a: Array[float]) -
 		elif block is ThrusterAngled:
 			var a_l = allocs[0].a
 			var a_r = allocs[1].a
-			var total_a = max(a_l, a_r)
+			# 計算合成向量以獲得真實推力大小與 Gimbal 角度
+			var v_l = Vector2.UP.rotated(deg_to_rad(-15.0)) * a_l
+			var v_r = Vector2.UP.rotated(deg_to_rad(15.0)) * a_r
+			var v_sum = v_l + v_r
+			var total_a = v_sum.length()
 			if total_a > 0.01:
-				# 根據左右推力極限的使用比例，反推出 Gimbal 偏移角度
-				var ratio = a_r / (a_l + a_r) if (a_l + a_r) > 0 else 0.5
-				var gimbal = lerp(-15.0, 15.0, ratio)
-				block.apply_thrust(physics_body, total_a, gimbal)
+				var gimbal = rad_to_deg(v_sum.angle_to(Vector2.UP))
+				block.apply_thrust(physics_body, total_a, -gimbal)
 				
 		elif block is ThrusterRCS:
 			var final_dir = Vector2.ZERO
-			var max_a = 0.0
 			for alloc in allocs:
-				# 將局部方向轉為全局方向，因為 apply_thrust 預期全局推進方向
 				final_dir += alloc.vt.dir.rotated(physics_body.global_rotation) * alloc.a
-				max_a = max(max_a, alloc.a)
-			if max_a > 0.01 and final_dir.length_squared() > 0.01:
-				block.apply_thrust(physics_body, final_dir.normalized(), max_a)
+			var total_a = final_dir.length() / (block.thrust_force / block.thrust_force) # 這裡直接用長度即可
+			if total_a > 0.01:
+				block.apply_thrust(physics_body, final_dir.normalized(), total_a)

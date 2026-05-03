@@ -25,12 +25,32 @@ func _on_block_added(node: Node) -> void:
 			core_block = node
 		# 延遲註冊，確保其 poly_shape 等資料已初始化
 		call_deferred("register_block", node)
+		call_deferred("recalculate_physics_properties")
 
 func _on_block_removed(node: Node) -> void:
 	if node is BlockBase:
 		if node == core_block:
 			core_block = null
 		unregister_block(node)
+		call_deferred("recalculate_physics_properties")
+
+## 動態計算全船物理屬性 (質量與質心)
+func recalculate_physics_properties() -> void:
+	var total_mass = 0.0
+	var weighted_pos = Vector2.ZERO
+	
+	for child in blocks_container.get_children():
+		if child is BlockBase and child.state_machine.is_built():
+			total_mass += child.mass
+			weighted_pos += child.position * child.mass
+			
+	if total_mass > 0:
+		physics_body.mass = total_mass
+		physics_body.center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
+		physics_body.center_of_mass = weighted_pos / total_mass
+	else:
+		physics_body.mass = 1.0
+		physics_body.center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_AUTO
 
 ## 全域座標轉網格座標
 func global_to_grid(global_pos: Vector2) -> Vector2i:
