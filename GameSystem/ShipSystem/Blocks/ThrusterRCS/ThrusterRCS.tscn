@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxrcs1x1"]
+[gd_scene format=3 uid="uid://cxrcs1x1"]
 
 [ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/ThrusterRCS/ThrusterRCS.gd" id="2_rcs"]
+[ext_resource type="Script" uid="uid://cjslj82yqu0aj" path="res://GameSystem/ShipSystem/Blocks/ThrusterRCS/ThrusterRCS.gd" id="2_rcs"]
+[ext_resource type="Texture2D" uid="uid://i24g0fxeqpdo" path="res://GameSystem/ShipSystem/Blocks/ThrusterRCS/RCS.svg" id="3_jdgsu"]
 
-[node name="ThrusterRCS" instance=ExtResource("1_base")]
+[node name="ThrusterRCS" unique_id=2052390342 instance=ExtResource("1_base")]
 script = ExtResource("2_rcs")
 
-[node name="PolyominoShape" parent="." index="2"]
-occupied_cells = [Vector2i(0, 0)]
+[node name="Sprite2D" type="Sprite2D" parent="Visual" index="0" unique_id=554013551]
+position = Vector2(-4.7683716e-07, 2)
+scale = Vector2(1.4761906, 1.4962748)
+texture = ExtResource("3_jdgsu")

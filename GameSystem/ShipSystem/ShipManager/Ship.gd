@@ -21,11 +21,15 @@ func _ready() -> void:
 
 func _on_block_added(node: Node) -> void:
 	if node is BlockBase:
+		if node is CoreBlock:
+			core_block = node
 		# 延遲註冊，確保其 poly_shape 等資料已初始化
 		call_deferred("register_block", node)
 
 func _on_block_removed(node: Node) -> void:
 	if node is BlockBase:
+		if node == core_block:
+			core_block = null
 		unregister_block(node)
 
 ## 全域座標轉網格座標
@@ -35,9 +39,10 @@ func global_to_grid(global_pos: Vector2) -> Vector2i:
 
 ## 局部座標轉網格座標
 func local_to_grid(local_pos: Vector2) -> Vector2i:
-	var x = round(local_pos.x / CELL_SIZE)
-	var y = round(local_pos.y / CELL_SIZE)
-	return Vector2i(x, y)
+	# 使用 floor(x/s + 0.5) 提供更穩定的網格對齊，避免邊界跳動
+	var x = floor(local_pos.x / CELL_SIZE + 0.5)
+	var y = floor(local_pos.y / CELL_SIZE + 0.5)
+	return Vector2i(int(x), int(y))
 
 ## 網格座標轉局部座標
 func grid_to_local(grid_pos: Vector2i) -> Vector2:
@@ -103,3 +108,33 @@ func trigger_structural_check() -> void:
 			if not visited.has(child):
 				# 剝離：強制銷毀
 				child.state_machine.transition_to(BlockStateMachine.State.DESTROYED)
+
+## 檢查移除某方塊是否安全 (不會造成其他已建造方塊斷連)
+func is_removal_safe(block_to_remove: BlockBase) -> bool:
+	if not core_block or not is_instance_valid(core_block):
+		return false
+	if block_to_remove == core_block:
+		return false
+	
+	# 模擬移除：BFS 尋找除了 block_to_remove 以外的所有已建置方塊是否仍連通至核心
+	var visited = {core_block: true}
+	var queue = [core_block]
+	var connected_count = 1
+	
+	# 取得當前所有 BUILT/PENDING 狀態的方塊總量 (扣除要移除的那一個)
+	var total_built_count = 0
+	for child in blocks_container.get_children():
+		if child is BlockBase and child.state_machine.is_built() and child != block_to_remove:
+			total_built_count += 1
+			
+	while queue.size() > 0:
+		var current = queue.pop_front()
+		var neighbors = get_neighbors(current)
+		for neighbor in neighbors:
+			if neighbor != block_to_remove and neighbor.state_machine.is_built() and not visited.has(neighbor):
+				visited[neighbor] = true
+				queue.append(neighbor)
+				connected_count += 1
+	
+	# 如果連通數量等於剩餘總量，則安全
+	return connected_count == total_built_count

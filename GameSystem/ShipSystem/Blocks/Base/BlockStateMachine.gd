@@ -5,6 +5,7 @@ enum State {
 	BLUEPRINT,
 	BUILDING,
 	BUILT,
+	PENDING_REMOVAL,
 	DESTROYED
 }
 
@@ -32,19 +33,23 @@ func _apply_state(state: State) -> void:
 	match state:
 		State.BLUEPRINT:
 			if block.visual:
-				block.visual.modulate.a = 0.5
+				block.visual.modulate = Color(1, 1, 1, 0.5)
 		State.BUILDING:
 			if block.visual:
-				block.visual.modulate.a = 0.8
+				block.visual.modulate = Color(1, 1, 1, 0.8)
 		State.BUILT:
 			if block.visual:
-				block.visual.modulate.a = 1.0
+				block.visual.modulate = Color(1, 1, 1, 1.0)
 			block.on_built()
+		State.PENDING_REMOVAL:
+			if block.visual:
+				# 帶紅色的待拆除視覺
+				block.visual.modulate = Color(1, 0.4, 0.4, 1.0)
 		State.DESTROYED:
 			block.on_destroyed()
 
 func is_built() -> bool:
-	return current_state == State.BUILT
+	return current_state == State.BUILT or current_state == State.PENDING_REMOVAL
 
 func is_blueprint() -> bool:
 	return current_state == State.BLUEPRINT

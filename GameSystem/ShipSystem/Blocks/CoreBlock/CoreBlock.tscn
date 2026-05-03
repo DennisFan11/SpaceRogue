@@ -1,25 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxcxcxcxcore"]
+[gd_scene format=3 uid="uid://cxcxcxcxcore"]
 
 [ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/CoreBlock/CoreBlock.gd" id="2_core"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/Builder.gd" id="3_build"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/Inventory.gd" id="4_inv"]
+[ext_resource type="Script" uid="uid://chbxmqxkvuj74" path="res://GameSystem/ShipSystem/Blocks/CoreBlock/CoreBlock.gd" id="2_core"]
+[ext_resource type="Script" uid="uid://d4m73gosk25wt" path="res://GameSystem/ShipSystem/Components/Builder.gd" id="3_build"]
+[ext_resource type="Texture2D" uid="uid://cd2v6b11hr2fq" path="res://GameSystem/ShipSystem/Blocks/CoreBlock/core.svg" id="3_swisv"]
+[ext_resource type="Script" uid="uid://d2cqmmqwk0b4a" path="res://GameSystem/ShipSystem/Components/Inventory.gd" id="4_inv"]
+[ext_resource type="Script" uid="uid://bwe57m0plnlaq" path="res://GameSystem/PlayerSystem/Components/Interactable.gd" id="5_inter"]
 
-[ext_resource type="Script" path="res://GameSystem/PlayerSystem/Components/Interactable.gd" id="5_inter"]
-
-[node name="CoreBlock" instance=ExtResource("1_base")]
+[node name="CoreBlock" unique_id=2031234191 instance=ExtResource("1_base")]
 script = ExtResource("2_core")
 
 [node name="PolyominoShape" parent="." index="2"]
-occupied_cells = [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)]
+occupied_cells = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)])
 
-[node name="Builder" type="Node2D" parent="." index="4"]
+[node name="Sprite2D" type="Sprite2D" parent="Visual" index="0" unique_id=1422656231]
+position = Vector2(32, 34)
+scale = Vector2(1.7847824, 1.8235822)
+texture = ExtResource("3_swisv")
+
+[node name="Builder" type="Node2D" parent="." index="4" unique_id=353461632]
 script = ExtResource("3_build")
-max_build_range = 500.0
 
-[node name="Inventory" type="Node" parent="." index="5"]
+[node name="Inventory" type="Node" parent="." index="5" unique_id=1127361785]
 script = ExtResource("4_inv")
 
-[node name="Interactable" type="Area2D" parent="." index="6"]
+[node name="Interactable" type="Area2D" parent="." index="6" unique_id=1839665194]
 script = ExtResource("5_inter")
 prompt_text = "[F] Enter"
