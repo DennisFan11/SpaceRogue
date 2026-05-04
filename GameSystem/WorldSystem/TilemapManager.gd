@@ -172,8 +172,27 @@ func local_to_grid(local_pos: Vector2) -> Vector2i:
 func _draw() -> void:
 	if not Engine.is_editor_hint() or _id_grid.is_empty(): return
 	
-	for y in range(map_height):
-		for x in range(map_width):
+	# 獲取編輯器視圖的可見範圍
+	var transform = get_viewport_transform() * get_canvas_transform()
+	var inv_transform = transform.affine_inverse()
+	var view_rect = inv_transform * get_viewport_rect()
+	
+	# 將可見範圍轉換為網格座標範圍
+	var min_pos = view_rect.position
+	var max_pos = view_rect.end
+	
+	var grid_min = local_to_grid(min_pos)
+	var grid_max = local_to_grid(max_pos)
+	
+	# 確保範圍在有效邊界內
+	var start_x = clamp(grid_min.x - 1, 0, map_width - 1)
+	var end_x = clamp(grid_max.x + 1, 0, map_width - 1)
+	var start_y = clamp(grid_max.y - 1, 0, map_height - 1) # 注意 Y 軸向上
+	var end_y = clamp(grid_min.y + 1, 0, map_height - 1)
+	
+	# 僅繪製可見範圍內的瓷磚
+	for y in range(start_y, end_y + 1):
+		for x in range(start_x, end_x + 1):
 			var state = get_tile_state(x, y)
 			if state == null or state.type == TileBlockDB.TileType.AIR: continue
 			
