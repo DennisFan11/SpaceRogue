@@ -1,14 +1,23 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="PackedScene" path="res://GameSystem/WorldSystem/Tiles/BaseTileBlock.tscn" id="1_base"]
 [ext_resource type="Script" path="res://GameSystem/WorldSystem/Tiles/Stone.gd" id="2_stone"]
 [ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="3_tex"]
+[ext_resource type="Shader" path="res://GameSystem/WorldSystem/Tiles/Shaders/VoronoiTile.gdshader" id="4_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_stone"]
+shader = ExtResource("4_shader")
+shader_parameter/color_bright = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/color_dark = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/scale = 0.08
+shader_parameter/jitter = 0.95
+shader_parameter/seed = 98.765
 
 [node name="Stone" instance=ExtResource("1_base")]
 script = ExtResource("2_stone")
 
 [node name="Sprite2D" parent="." index="0"]
-modulate = Color(0.443137, 0.443137, 0.443137, 1)
+material = SubResource("ShaderMaterial_stone")
 texture = ExtResource("3_tex")
 
 [node name="Damageable" parent="." index="2"]
