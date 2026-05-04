@@ -19,8 +19,8 @@ static func _static_init() -> void:
 
 ## 預載所有內建瓷磚
 static func _preload_tiles() -> void:
-	_register(TileType.DIRT, load("res://GameSystem/WorldSystem/Tiles/Dirt.tscn"), Color(0.38, 0.26, 0.16))
-	_register(TileType.STONE, load("res://GameSystem/WorldSystem/Tiles/Stone.tscn"), Color(0.3, 0.32, 0.35))
+	_register(TileType.DIRT, load("res://GameSystem/WorldSystem/Tiles/Dirt.tscn"), Color(0.6, 0.45, 0.3))
+	_register(TileType.STONE, load("res://GameSystem/WorldSystem/Tiles/Stone.tscn"), Color(0.55, 0.6, 0.65))
 	_register(TileType.AIR, null, Color(0, 0, 0, 0))
 
 static func _register(type: TileType, scene: PackedScene, color: Color) -> void:

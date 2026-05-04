@@ -7,8 +7,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dirt"]
 shader = ExtResource("4_shader")
-shader_parameter/color_bright = Color(0.4, 0.27, 0.15, 1)
-shader_parameter/color_dark = Color(0.25, 0.15, 0.1, 1)
+shader_parameter/color_bright = Color(0.65, 0.45, 0.25, 1)
+shader_parameter/color_dark = Color(0.45, 0.3, 0.15, 1)
 shader_parameter/scale = 0.06
 shader_parameter/jitter = 0.9
 shader_parameter/seed = 12.345
