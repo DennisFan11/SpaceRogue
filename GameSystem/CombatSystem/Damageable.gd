@@ -4,8 +4,8 @@ class_name Damageable
 signal health_changed(current_hp: float, max_hp: float)
 signal destroyed()
 
-## 陣營 ID。用以區分敵我，避免誤傷
-@export var team_id: int = 0
+## 陣營 ID。用以區分敵我，避免誤傷 (使用 Team 類定義的常量)
+@export var team_id: int = Team.NEUTRAL
 @export var max_hp: float = 100.0
 
 var current_hp: float
@@ -15,8 +15,9 @@ func _ready() -> void:
 
 ## 承受傷害，需傳入來源陣營以判定 Friendly Fire
 func take_damage(amount: float, source_team_id: int) -> void:
-	if source_team_id == team_id:
-		return # 忽略同陣營傷害
+	# 如果來源陣營與自身陣營相同，且不是中立陣營，則忽略傷害 (Friendly Fire Off)
+	if source_team_id != Team.NEUTRAL and source_team_id == team_id:
+		return
 		
 	if current_hp <= 0:
 		return

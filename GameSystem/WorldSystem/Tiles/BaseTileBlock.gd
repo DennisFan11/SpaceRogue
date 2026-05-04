@@ -23,6 +23,6 @@ func _on_destroyed() -> void:
 	queue_free()
 
 ## 支援外部呼叫以相容舊邏輯
-func damage(amount: float, source_team_id: int = -1) -> void:
+func damage(amount: float, source_team_id: int = Team.NEUTRAL) -> void:
 	if damageable:
 		damageable.take_damage(amount, source_team_id)

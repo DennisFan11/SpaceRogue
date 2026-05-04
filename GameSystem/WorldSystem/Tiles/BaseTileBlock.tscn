@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://sdoufqyeqjc0"]
 
 [ext_resource type="Script" uid="uid://d4bjk4iw1mly0" path="res://GameSystem/WorldSystem/Tiles/BaseTileBlock.gd" id="1_base"]
-[ext_resource type="Script" uid="uid://dbhr3fnjs37wd" path="res://GameSystem/ShipSystem/Components/Damageable.gd" id="2_dmg"]
+[ext_resource type="Script" uid="uid://6l6f10rtvj1x" path="res://GameSystem/CombatSystem/Damageable.gd" id="2_dmg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_base"]
 size = Vector2(64, 64)

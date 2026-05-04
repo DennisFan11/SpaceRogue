@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://chbxmqxkvuj74" path="res://GameSystem/ShipSystem/Blocks/CoreBlock/CoreBlock.gd" id="2_core"]
 [ext_resource type="Script" uid="uid://d4m73gosk25wt" path="res://GameSystem/ShipSystem/Components/Builder.gd" id="3_build"]
 [ext_resource type="Texture2D" uid="uid://cd2v6b11hr2fq" path="res://GameSystem/ShipSystem/Blocks/CoreBlock/core.svg" id="3_swisv"]
-[ext_resource type="Script" uid="uid://d2cqmmqwk0b4a" path="res://GameSystem/ShipSystem/Components/Inventory.gd" id="4_inv"]
+[ext_resource type="Script" uid="uid://cy6ix3crp2w4f" path="res://GameSystem/ResourceSystem/Inventory.gd" id="4_inv"]
 [ext_resource type="Script" uid="uid://bwe57m0plnlaq" path="res://GameSystem/PlayerSystem/Components/Interactable.gd" id="5_inter"]
 
 [node name="CoreBlock" unique_id=2031234191 instance=ExtResource("1_base")]

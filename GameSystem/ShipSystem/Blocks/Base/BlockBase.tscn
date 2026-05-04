@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.gd" id="1_a"]
 [ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockStateMachine.gd" id="2_b"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/Damageable.gd" id="3_c"]
+[ext_resource type="Script" path="res://GameSystem/CombatSystem/Damageable.gd" id="3_c"]
 [ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/PolyominoShape.gd" id="4_d"]
 
 [node name="BlockBase" type="Node2D"]
