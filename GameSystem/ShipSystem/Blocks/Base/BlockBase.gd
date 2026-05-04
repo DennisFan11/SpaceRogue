@@ -1,7 +1,7 @@
 extends Node2D
 class_name BlockBase
 
-@export var cost: BlockCost
+@export var cost: ResourceCost
 @export var rotation_degrees_snap: int = 0
 @export var mass: float = 1.0
 

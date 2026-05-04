@@ -8,6 +8,7 @@ const LAYER_SHIP: int = 2
 const LAYER_PROJECTILE: int = 4
 const LAYER_WALL: int = 8
 const LAYER_INTERACTABLE: int = 16
+const LAYER_RESOURCE: int = 32
 
 ## 將多個層級組合成一個 Mask
 static func create_mask(layers: Array[int]) -> int:

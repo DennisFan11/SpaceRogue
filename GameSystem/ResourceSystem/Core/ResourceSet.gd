@@ -54,11 +54,15 @@ func has_enough(other: ResourceSet) -> bool:
 func is_empty() -> bool:
 	return resources.is_empty()
 
-## 將 Inspector 編輯用的 BlockCost 轉換為可用於數學計算的 ResourceSet
-static func from_block_cost(cost: BlockCost) -> ResourceSet:
+## 將 Inspector 編輯用的 ResourceCost 轉換為可用於數學計算的 ResourceSet
+static func from_resource_cost(cost: ResourceCost) -> ResourceSet:
 	var set = ResourceSet.new()
 	if cost:
 		for c in cost.costs:
 			if c.resource_type:
 				set.set_amount(c.resource_type.id, set.get_amount(c.resource_type.id) + c.amount)
 	return set
+
+## 舊方法兼容
+static func from_block_cost(cost: ResourceCost) -> ResourceSet:
+	return from_resource_cost(cost)
