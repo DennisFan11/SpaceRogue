@@ -1,25 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://stone_tile_scene"]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://GameSystem/WorldSystem/Tiles/Stone.gd" id="1_stone"]
-[ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="2_tex"]
-[ext_resource type="Script" uid="uid://dbhr3fnjs37wd" path="res://GameSystem/ShipSystem/Components/Damageable.gd" id="3_dmg"]
+[ext_resource type="PackedScene" path="res://GameSystem/WorldSystem/Tiles/BaseTileBlock.tscn" id="1_base"]
+[ext_resource type="Script" path="res://GameSystem/WorldSystem/Tiles/Stone.gd" id="2_stone"]
+[ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="3_tex"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(64, 64)
+[node name="Stone" instance=ExtResource("1_base")]
+script = ExtResource("2_stone")
 
-[node name="Stone" type="StaticBody2D"]
-collision_layer = 8
-collision_mask = 0
-script = ExtResource("1_stone")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" parent="." index="0"]
 modulate = Color(0.443137, 0.443137, 0.443137, 1)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_tex")
+texture = ExtResource("3_tex")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_1")
-
-[node name="Damageable" type="Node" parent="."]
-script = ExtResource("3_dmg")
+[node name="Damageable" parent="." index="2"]
 max_hp = 200.0
