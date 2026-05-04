@@ -7,13 +7,27 @@ var chunk_size: int = 16
 var chunk_pos: Vector2i  ## Chunk 座標 (不是網格座標)
 var manager: TilemapManager
 
+var _spawn_queue: Array[Vector3i] = [] # x, y, type
+var _spawn_timer := CooldownTimer.new()
+var _spawn_batch_size: int = 4 # 每幀生成的數量
+var _spawn_interval: float = 0.01 # 生成間隔
+
 func _ready() -> void:
 	if not manager:
 		manager = get_parent().get_parent() as TilemapManager
 	
-	_spawn_tiles()
+	_prepare_spawn_queue()
 
-func _spawn_tiles() -> void:
+func _process(_delta: float) -> void:
+	if _spawn_queue.is_empty():
+		set_process(false) # 隊列空了就停止 process
+		return
+		
+	if _spawn_timer.is_ready():
+		_process_spawn_queue()
+		_spawn_timer.trigger(_spawn_interval)
+
+func _prepare_spawn_queue() -> void:
 	var start_x = chunk_pos.x * chunk_size
 	var start_y = chunk_pos.y * chunk_size
 	
@@ -26,6 +40,18 @@ func _spawn_tiles() -> void:
 			if state == null or state.type == TileBlockDB.TileType.AIR:
 				continue
 			
+			_spawn_queue.append(Vector3i(gx, gy, state.type))
+
+func _process_spawn_queue() -> void:
+	for i in range(_spawn_batch_size):
+		if _spawn_queue.is_empty(): break
+		
+		var task = _spawn_queue.pop_front()
+		var gx = task.x
+		var gy = task.y
+		var state = manager.get_tile_state(gx, gy)
+		
+		if state:
 			_create_tile_instance(gx, gy, state)
 
 func _create_tile_instance(gx: int, gy: int, state: TileState) -> void:
@@ -34,17 +60,13 @@ func _create_tile_instance(gx: int, gy: int, state: TileState) -> void:
 		add_child(tile)
 		tile.position = manager.grid_to_local(gx, gy) - global_position
 		
-		# 如果瓷磚有 Damageable 組件，初始化血量並連接信號
 		if tile.has_node("Damageable"):
 			var dmg = tile.get_node("Damageable") as Damageable
-			# 我們需要確保在 Damageable._ready() 之後設定血量，或者直接手動設定
-			# 這裡我們等待一幀或直接在 add_child 後設定（因為 add_child 會觸發 _ready）
 			dmg.current_hp = state.health
 			dmg.destroyed.connect(_on_tile_destroyed.bind(gx, gy))
 			dmg.health_changed.connect(_on_tile_health_changed.bind(gx, gy))
 
 func _on_tile_destroyed(gx: int, gy: int) -> void:
-	# 更新 Manager 數據
 	manager.set_tile_state(gx, gy, null)
 
 func _on_tile_health_changed(current_hp: float, _max_hp: float, gx: int, gy: int) -> void:

@@ -4,8 +4,8 @@ class_name WorldLoader
 ## 世界加載器：負責追蹤目標並管理 Chunk 的加載與卸載
 
 @export var chunk_size: int = 16
-@export var view_distance: int = 2  ## 加載半徑 (單位：Chunk)
-@export var update_interval: float = 0.5 ## 檢查間隔 (秒)
+@export var view_distance: int = 4  ## 加載半徑 (單位：Chunk)
+@export var update_interval: float = 0.1 ## 檢查間隔 (秒)
 
 var manager: TilemapManager
 var chunk_scene: PackedScene = preload("res://GameSystem/WorldSystem/Chunk.tscn")

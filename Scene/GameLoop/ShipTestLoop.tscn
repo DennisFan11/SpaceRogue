@@ -7,12 +7,24 @@
 [node name="ShipTestLoop" unique_id=191581590 instance=ExtResource("1_base")]
 script = ExtResource("2_test")
 
+[node name="BG" parent="." index="0" unique_id=1371463443]
+polygon = PackedVector2Array(-178346, -162127, 214486, -161871, 206038, 100913, -134314, 66737)
+
 [node name="TilemapManager" parent="." index="4" unique_id=1055940441]
 map_width = 300
-map_height = 700
+map_height = 1000
+
+[node name="StoneNoiseGenerator" parent="TilemapManager" index="3" unique_id=1244597158]
+end_y = 2000
+preview_color = Color(0.55, 0.6, 0.65, 1)
+
+[node name="DirtNoiseGenerator" parent="TilemapManager" index="4" unique_id=1083131644]
+end_y = 2000
+preview_color = Color(0.6, 0.45, 0.3, 1)
 
 [node name="TextureGenerator" parent="TilemapManager" index="5" unique_id=1107191612]
 end_y = 3000
+preview_color = Color(0, 0, 0, 0)
 
 [node name="Icon" type="Sprite2D" parent="." index="6" unique_id=724036973]
 position = Vector2(2, -2)

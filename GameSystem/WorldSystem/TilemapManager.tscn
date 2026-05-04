@@ -1,14 +1,14 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://b6v7qve86qcqa"]
 
-[ext_resource type="Script" path="res://GameSystem/WorldSystem/TilemapManager.gd" id="1_manager"]
-[ext_resource type="Script" path="res://GameSystem/WorldSystem/WorldLoader.gd" id="2_loader"]
+[ext_resource type="Script" uid="uid://62evkyhua85l" path="res://GameSystem/WorldSystem/TilemapManager.gd" id="1_manager"]
+[ext_resource type="Script" uid="uid://cpwxr51qpro0c" path="res://GameSystem/WorldSystem/WorldLoader.gd" id="2_loader"]
 
-[node name="TilemapManager" type="Node2D"]
+[node name="TilemapManager" type="Node2D" unique_id=109534762]
 script = ExtResource("1_manager")
 
-[node name="WorldLoader" type="Node2D" parent="."]
+[node name="WorldLoader" type="Node2D" parent="." unique_id=62313955]
 script = ExtResource("2_loader")
 
-[node name="Generators" type="Node2D" parent="."]
+[node name="Generators" type="Node2D" parent="." unique_id=695973852]
 
-[node name="ActiveChunks" type="Node2D" parent="."]
+[node name="ActiveChunks" type="Node2D" parent="." unique_id=868455090]
