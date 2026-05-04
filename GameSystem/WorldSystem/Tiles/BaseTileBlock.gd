@@ -3,6 +3,8 @@ class_name BaseTileBlock
 
 ## 所有世界瓷磚的基底類別
 
+@export var preview_color: Color = Color.WHITE
+
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var damageable: Damageable = $Damageable
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D

@@ -177,14 +177,11 @@ func _draw() -> void:
 			var state = get_tile_state(x, y)
 			if state == null or state.type == TileBlockDB.TileType.AIR: continue
 			
-			var tex = TileBlockDB.get_tile_texture(state.type)
+			var color = TileBlockDB.get_tile_color(state.type)
 			var pos = grid_to_local(x, y)
 			var rect = Rect2(pos - Vector2(BLOCK_SIZE, BLOCK_SIZE) / 2.0, Vector2(BLOCK_SIZE, BLOCK_SIZE))
 			
-			if tex:
-				draw_texture_rect(tex, rect, false)
-			else:
-				draw_rect(rect, Color.GREEN, true)
+			draw_rect(rect, color, true)
 	
 	var border_origin = grid_to_local(0, 0) - Vector2(BLOCK_SIZE, BLOCK_SIZE) / 2.0
 	border_origin.y -= (map_height - 1) * BLOCK_SIZE

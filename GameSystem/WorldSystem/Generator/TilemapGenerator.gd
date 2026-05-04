@@ -24,17 +24,17 @@ signal preview_dirty
 @export var tile_type: TileBlockDB.TileType = TileBlockDB.TileType.DIRT:
 	set(v):
 		tile_type = v
-		_update_preview_texture()
+		_update_preview_color()
 		preview_dirty.emit()
 
 @export var blend_mode: BlendMode = BlendMode.OVERRIDE:
 	set(v): blend_mode = v; preview_dirty.emit()
 
 @export_group("Editor Preview")
-@export var preview_texture: Texture2D
+@export var preview_color: Color
 
 func _ready() -> void:
-	_update_preview_texture()
+	_update_preview_color()
 
 ## 核心採樣函式，由子類別實作
 func samp(x: float, y: float) -> float:
@@ -44,12 +44,10 @@ func samp(x: float, y: float) -> float:
 func get_influence(x: float, y: float) -> bool:
 	return samp(x, y) > 0.5
 
-## 更新編輯器預覽貼圖
-func _update_preview_texture() -> void:
+## 更新編輯器預覽顏色
+func _update_preview_color() -> void:
 	if Engine.is_editor_hint():
-		var tex = TileBlockDB.get_tile_texture(tile_type)
-		if tex:
-			preview_texture = tex
+		preview_color = TileBlockDB.get_tile_color(tile_type)
 
 ## 在編輯器中繪製簡易預覽 (可選)
 func _draw() -> void:
