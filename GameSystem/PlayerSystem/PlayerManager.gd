@@ -8,6 +8,7 @@ var current_piloted_core: CoreBlock = null
 var is_piloting: bool = false
 
 var player_scene: PackedScene = preload("res://GameSystem/PlayerSystem/Player.tscn")
+var player_ui_scene: PackedScene = preload("res://GameSystem/PlayerSystem/PlayerUI.tscn")
 
 var main_camera: Camera2D = null ## 由 ShipTestLoop 設定
 var zoom_target: Vector2 = Vector2.ONE
@@ -17,6 +18,10 @@ const MAX_ZOOM = 5.0
 
 func _ready() -> void:
 	DI.register("_player_manager", self)
+	
+	# 初始化 PlayerUI
+	var ui = player_ui_scene.instantiate()
+	add_child(ui)
 
 func _process(delta: float) -> void:
 	# 攝影機縮放插值留在 _process 以獲得最高流暢度
