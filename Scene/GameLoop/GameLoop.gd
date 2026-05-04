@@ -8,6 +8,7 @@ signal game_over(reason: String)
 @onready var ship_builder: ShipBuilder = $ShipBuilder
 @onready var camera: Camera2D = $Camera2D
 @onready var build_menu: BuildMenu = $CanvasLayer/BuildMenu
+@onready var tilemap_manager: TilemapManager = $TilemapManager
 
 func _ready() -> void:
 	# DI 會透過 node_added 信號自動注入新節點

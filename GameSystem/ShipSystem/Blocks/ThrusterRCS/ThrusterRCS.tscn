@@ -6,7 +6,7 @@
 
 [node name="ThrusterRCS" unique_id=2052390342 instance=ExtResource("1_base")]
 script = ExtResource("2_rcs")
-thrust_force = 60.0
+thrust_force = 40.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Visual" index="0" unique_id=554013551]
 scale = Vector2(0.175, 0.175)

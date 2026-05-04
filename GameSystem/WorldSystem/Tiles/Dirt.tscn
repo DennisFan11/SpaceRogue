@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dirt_tile_scene"]
+
+[ext_resource type="Script" path="res://GameSystem/WorldSystem/Tiles/Dirt.gd" id="1_dirt"]
+[ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="2_tex"]
+[ext_resource type="Script" uid="uid://dbhr3fnjs37wd" path="res://GameSystem/ShipSystem/Components/Damageable.gd" id="3_dmg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(64, 64)
+
+[node name="Dirt" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_dirt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("3_dmg")
+max_hp = 50.0

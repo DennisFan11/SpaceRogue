@@ -6,6 +6,23 @@
 [ext_resource type="Script" uid="uid://cq3n5stuisgy6" path="res://GameSystem/ShipSystem/ShipManager/ShipBuilder.gd" id="3_sb"]
 [ext_resource type="PackedScene" uid="uid://cxcxuibuild" path="res://GameSystem/ShipSystem/UI/BuildMenu.tscn" id="4_ui"]
 [ext_resource type="Script" uid="uid://dqjcxke2e51i1" path="res://GameSystem/ShipSystem/ShipManager/ShipManager.gd" id="5_sm"]
+[ext_resource type="PackedScene" path="res://GameSystem/WorldSystem/TilemapManager.tscn" id="6_17ol1"]
+[ext_resource type="Script" uid="uid://ckq2k0e2x86hh" path="res://GameSystem/WorldSystem/Generator/NoiseGenerator.gd" id="7_nj7sr"]
+[ext_resource type="Script" uid="uid://0h4iv5q5gv41" path="res://GameSystem/WorldSystem/Generator/TextureGenerator.gd" id="8_17ol1"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_17ol1"]
+seed = -781269596
+frequency = 0.05
+
+[sub_resource type="Gradient" id="Gradient_17ol1"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.36340854, 0.5689223)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lxql7"]
+gradient = SubResource("Gradient_17ol1")
+fill_from = Vector2(0.24358974, 0)
+fill_to = Vector2(0.7948718, 0)
 
 [node name="GameLoop" type="Node" unique_id=2042068625]
 script = ExtResource("1_loop")
@@ -24,6 +41,20 @@ script = ExtResource("2_pm")
 
 [node name="ShipBuilder" type="Node" parent="." unique_id=993469890]
 script = ExtResource("3_sb")
+
+[node name="TilemapManager" parent="." unique_id=1055940441 instance=ExtResource("6_17ol1")]
+
+[node name="NoiseGenerator" type="Node2D" parent="TilemapManager" unique_id=1244597158]
+script = ExtResource("7_nj7sr")
+noise = SubResource("FastNoiseLite_17ol1")
+end_y = 300
+metadata/_custom_type_script = "uid://ckq2k0e2x86hh"
+
+[node name="TextureGenerator" type="Node2D" parent="TilemapManager" unique_id=1107191612]
+script = ExtResource("8_17ol1")
+mask_texture = SubResource("GradientTexture2D_lxql7")
+end_y = 300
+tile_type = 0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
 

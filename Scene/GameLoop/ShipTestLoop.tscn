@@ -7,6 +7,16 @@
 [node name="ShipTestLoop" unique_id=191581590 instance=ExtResource("1_base")]
 script = ExtResource("2_test")
 
-[node name="Icon" type="Sprite2D" parent="." index="0" unique_id=724036973]
+[node name="TilemapManager" parent="." index="4" unique_id=123456789]
+map_width = 300
+map_height = 700
+
+[node name="NoiseGenerator" parent="TilemapManager" index="0" unique_id=1244597158]
+end_y = 1000
+
+[node name="TextureGenerator" parent="TilemapManager" index="1" unique_id=1107191612]
+end_y = 3000
+
+[node name="Icon" type="Sprite2D" parent="." index="6" unique_id=724036973]
 position = Vector2(2, -2)
 texture = ExtResource("3_icon")

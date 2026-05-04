@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://GameSystem/WorldSystem/TilemapManager.gd" id="1_manager"]
+[ext_resource type="Script" path="res://GameSystem/WorldSystem/WorldLoader.gd" id="2_loader"]
+
+[node name="TilemapManager" type="Node2D"]
+script = ExtResource("1_manager")
+
+[node name="WorldLoader" type="Node2D" parent="."]
+script = ExtResource("2_loader")
+
+[node name="Generators" type="Node2D" parent="."]
+
+[node name="ActiveChunks" type="Node2D" parent="."]
