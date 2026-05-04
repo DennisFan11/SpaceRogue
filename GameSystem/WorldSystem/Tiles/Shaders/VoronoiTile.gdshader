@@ -2,14 +2,13 @@ shader_type canvas_item;
 
 uniform vec4 color_bright : source_color = vec4(0.6, 0.4, 0.2, 1.0);
 uniform vec4 color_dark : source_color = vec4(0.3, 0.2, 0.1, 1.0);
-uniform float scale = 0.05; // 世界座標下的縮放需要調小 (例如 0.05 代表每 20 像素一個單元)
+uniform float scale = 0.05;
 uniform float jitter : hint_range(0.0, 1.0) = 0.9;
 uniform float seed = 12.345;
 
 varying vec2 world_pos;
 
 void vertex() {
-    // 獲取頂點在世界空間中的座標
     world_pos = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
 }
 
@@ -22,7 +21,6 @@ float random_float(vec2 uv) {
 }
 
 void fragment() {
-    // 使用世界座標進行採樣
     vec2 uv = world_pos * scale;
     vec2 id = floor(uv);
     vec2 gv = fract(uv);

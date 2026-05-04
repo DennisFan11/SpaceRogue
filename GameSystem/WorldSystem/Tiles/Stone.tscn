@@ -1,24 +1,27 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://b7fmfuyth8350"]
 
-[ext_resource type="PackedScene" path="res://GameSystem/WorldSystem/Tiles/BaseTileBlock.tscn" id="1_base"]
-[ext_resource type="Script" path="res://GameSystem/WorldSystem/Tiles/Stone.gd" id="2_stone"]
+[ext_resource type="PackedScene" uid="uid://sdoufqyeqjc0" path="res://GameSystem/WorldSystem/Tiles/BaseTileBlock.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://c7e53uxy1f01r" path="res://GameSystem/WorldSystem/Tiles/Stone.gd" id="2_stone"]
 [ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="3_tex"]
-[ext_resource type="Shader" path="res://GameSystem/WorldSystem/Tiles/Shaders/VoronoiTile.gdshader" id="4_shader"]
+[ext_resource type="Shader" uid="uid://c21kavi6473aj" path="res://GameSystem/WorldSystem/Tiles/Shaders/VoronoiTile.gdshader" id="4_shader"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_stone"]
 shader = ExtResource("4_shader")
 shader_parameter/color_bright = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/color_mid = Color(0.45, 0.3, 0.15, 1)
 shader_parameter/color_dark = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/color_edge = Color(0.1, 0.1, 0.1, 1)
 shader_parameter/scale = 0.08
 shader_parameter/jitter = 0.95
 shader_parameter/seed = 98.765
+shader_parameter/edge_thickness = 0.02
 
-[node name="Stone" instance=ExtResource("1_base")]
+[node name="Stone" unique_id=791566356 instance=ExtResource("1_base")]
 script = ExtResource("2_stone")
 
-[node name="Sprite2D" parent="." index="0"]
+[node name="Sprite2D" parent="." index="1" unique_id=1476897211]
 material = SubResource("ShaderMaterial_stone")
 texture = ExtResource("3_tex")
 
-[node name="Damageable" parent="." index="2"]
+[node name="Damageable" parent="." index="2" unique_id=881118541]
 max_hp = 200.0

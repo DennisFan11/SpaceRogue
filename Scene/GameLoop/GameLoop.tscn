@@ -10,8 +10,12 @@
 [ext_resource type="Script" uid="uid://ckq2k0e2x86hh" path="res://GameSystem/WorldSystem/Generator/NoiseGenerator.gd" id="7_nj7sr"]
 [ext_resource type="Script" uid="uid://0h4iv5q5gv41" path="res://GameSystem/WorldSystem/Generator/TextureGenerator.gd" id="8_17ol1"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lxql7"]
+seed = 1019
+frequency = 0.05
+
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_17ol1"]
-seed = -781269596
+seed = 94
 frequency = 0.05
 
 [sub_resource type="Gradient" id="Gradient_17ol1"]
@@ -44,10 +48,20 @@ script = ExtResource("3_sb")
 
 [node name="TilemapManager" parent="." unique_id=1055940441 instance=ExtResource("6_17ol1")]
 
-[node name="NoiseGenerator" type="Node2D" parent="TilemapManager" unique_id=1244597158]
+[node name="StoneNoiseGenerator" type="Node2D" parent="TilemapManager" unique_id=1244597158]
+script = ExtResource("7_nj7sr")
+noise = SubResource("FastNoiseLite_lxql7")
+threshold = 0.645
+end_y = 300
+tile_type = 2
+metadata/_custom_type_script = "uid://ckq2k0e2x86hh"
+
+[node name="DirtNoiseGenerator" type="Node2D" parent="TilemapManager" unique_id=1083131644]
 script = ExtResource("7_nj7sr")
 noise = SubResource("FastNoiseLite_17ol1")
+threshold = 0.47
 end_y = 300
+blend_mode = 1
 metadata/_custom_type_script = "uid://ckq2k0e2x86hh"
 
 [node name="TextureGenerator" type="Node2D" parent="TilemapManager" unique_id=1107191612]
