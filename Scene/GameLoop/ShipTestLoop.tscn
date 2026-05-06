@@ -15,8 +15,8 @@ polygon = PackedVector2Array(-178346, -162127, 214486, -161871, 206038, 100913, 
 position = Vector2(2, -2)
 texture = ExtResource("3_icon")
 
-[node name="TilemapManager" parent="." index="7" unique_id=1055940441]
-map_width = 300
+[node name="TilemapManager" parent="." index="2" unique_id=1055940441]
+map_width = 600
 map_height = 1000
 
 [node name="StoneNoiseGenerator" parent="TilemapManager" index="3" unique_id=1244597158]

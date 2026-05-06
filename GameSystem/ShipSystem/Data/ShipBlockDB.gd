@@ -31,6 +31,9 @@ static func _preload_blocks() -> void:
 	_register("mechanical_drill",
 		preload("res://GameSystem/ShipSystem/Blocks/DrillBlock/DrillBlock.tscn"),
 		"機械鑽頭 (1x1)")
+	_register("laser_drill",
+		preload("res://GameSystem/ShipSystem/Blocks/LaserDrill/LaserDrill.tscn"),
+		"雷射鑽頭 (1x1)")
 
 static func _register(id: String, scene: PackedScene, display_name: String) -> void:
 	_block_scenes[id] = scene
@@ -38,7 +41,7 @@ static func _register(id: String, scene: PackedScene, display_name: String) -> v
 
 ## 取得所有可建造的 ID 列表 (不含 core，玩家無法再造一個 core)
 static func get_buildable_ids() -> Array[String]:
-	return ["wall", "thruster_fixed", "thruster_rcs", "thruster_angled", "mechanical_drill"]
+	return ["wall", "thruster_fixed", "thruster_rcs", "thruster_angled", "mechanical_drill", "laser_drill"]
 
 ## 取得顯示名稱
 static func get_display_name(id: String) -> String:

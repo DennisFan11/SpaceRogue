@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://be5r2m6m8j8w1"]
+
+[ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://eqwb6l5kbplv" path="res://GameSystem/ShipSystem/Blocks/LaserDrill/LaserDrill.gd" id="2_laser"]
+[ext_resource type="Texture2D" uid="uid://bikj2lac6n4l3" path="res://GameSystem/ShipSystem/Blocks/LaserDrill/LazerDrill.svg" id="3_iplnx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tracking"]
+radius = 300.0
+
+[sub_resource type="Curve" id="Curve_laser"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="LaserDrill" unique_id=623996153 instance=ExtResource("1_base")]
+script = ExtResource("2_laser")
+damage_per_second = 1500.0
+laser_range = 300.0
+laser_color = Color(0.6, 0.9137255, 0.9490196, 1)
+tracking_angle = 15.0
+rotation_speed = 10.0
+max_laser_width = 8.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" index="0" unique_id=1377422498]
+position = Vector2(0, 13)
+rotation = 1.5707964
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_iplnx")
+
+[node name="TrackingArea" type="Area2D" parent="Visual" index="1" unique_id=1345321634]
+collision_layer = 0
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/TrackingArea" index="0" unique_id=1979310450]
+shape = SubResource("CircleShape2D_tracking")
+
+[node name="LaserHead" type="Node2D" parent="Visual" index="2" unique_id=1995548232]
+position = Vector2(1, 31)
+
+[node name="RayCast2D" type="RayCast2D" parent="Visual/LaserHead" index="0" unique_id=2097200167]
+target_position = Vector2(0, 300)
+collision_mask = 10
+
+[node name="Line2D" type="Line2D" parent="Visual/LaserHead" index="1" unique_id=900748611]
+points = PackedVector2Array(0, 0, 0, 100)
+width = 5.0
+width_curve = SubResource("Curve_laser")
+default_color = Color(0.047058824, 0.52156866, 0.6, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
