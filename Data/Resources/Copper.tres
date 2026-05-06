@@ -6,6 +6,7 @@
 
 [resource]
 script = ExtResource("1_script")
+type = 1
 id = "copper"
 display_name = "Copper"
 icon = ExtResource("3_icon")

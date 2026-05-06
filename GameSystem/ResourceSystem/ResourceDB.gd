@@ -5,7 +5,9 @@ class_name ResourceDB
 
 enum Type {
 	NONE,
-	COPPER
+	COPPER,
+	METAL,
+	ENERGY
 }
 
 static var _resources: Dictionary = {} # Type (int) -> ResourceType
@@ -15,6 +17,8 @@ static func _static_init() -> void:
 
 static func _preload_resources() -> void:
 	_register(Type.COPPER, load("res://Data/Resources/Copper.tres"))
+	_register(Type.METAL, load("res://Data/Resources/Metal.tres"))
+	_register(Type.ENERGY, load("res://Data/Resources/Energy.tres"))
 
 static func _register(type: Type, res: ResourceType) -> void:
 	if res:

@@ -3,14 +3,14 @@ class_name Inventory
 
 var resources_set: ResourceSet = ResourceSet.new()
 
-## 新增特定 ID 的資源
-func add_resource(type_id: String, amount: int) -> void:
+## 新增特定類型的資源
+func add_resource(type: ResourceDB.Type, amount: int) -> void:
 	if amount <= 0: return
-	resources_set.set_amount(type_id, resources_set.get_amount(type_id) + amount)
+	resources_set.set_amount(type, resources_set.get_amount(type) + amount)
 
 ## 取得資源數量
-func get_amount(type_id: String) -> int:
-	return resources_set.get_amount(type_id)
+func get_amount(type: ResourceDB.Type) -> int:
+	return resources_set.get_amount(type)
 
 ## 新增資源 (透過 ResourceCost)
 func add_cost(cost: ResourceCost) -> void:

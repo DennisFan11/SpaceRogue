@@ -6,11 +6,11 @@
 [ext_resource type="Script" uid="uid://cq3n5stuisgy6" path="res://GameSystem/ShipSystem/ShipManager/ShipBuilder.gd" id="3_sb"]
 [ext_resource type="PackedScene" uid="uid://cxcxuibuild" path="res://GameSystem/ShipSystem/UI/BuildMenu.tscn" id="4_ui"]
 [ext_resource type="Script" uid="uid://dqjcxke2e51i1" path="res://GameSystem/ShipSystem/ShipManager/ShipManager.gd" id="5_sm"]
-[ext_resource type="PackedScene" path="res://GameSystem/WorldSystem/TilemapManager.tscn" id="6_17ol1"]
+[ext_resource type="PackedScene" uid="uid://b6v7qve86qcqa" path="res://GameSystem/WorldSystem/TilemapManager.tscn" id="6_17ol1"]
 [ext_resource type="Script" uid="uid://ckq2k0e2x86hh" path="res://GameSystem/WorldSystem/Generator/NoiseGenerator.gd" id="7_nj7sr"]
 [ext_resource type="Script" uid="uid://0h4iv5q5gv41" path="res://GameSystem/WorldSystem/Generator/TextureGenerator.gd" id="8_17ol1"]
-[ext_resource type="Script" path="res://GameSystem/EquipmentSystem/EquipmentManager.gd" id="9_em"]
-[ext_resource type="Script" path="res://GameSystem/ResourceSystem/ResourceManager.gd" id="10_rm"]
+[ext_resource type="Script" uid="uid://dtuvahnkmeb7x" path="res://GameSystem/EquipmentSystem/EquipmentManager.gd" id="9_em"]
+[ext_resource type="Script" uid="uid://bsbkd0awiktnq" path="res://GameSystem/ResourceSystem/ResourceManager.gd" id="10_rm"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lxql7"]
 seed = 1019
@@ -29,6 +29,10 @@ colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1)
 gradient = SubResource("Gradient_17ol1")
 fill_from = Vector2(0.24358974, 0)
 fill_to = Vector2(0.7948718, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_83w3q"]
+seed = 2657925
+frequency = 0.05
 
 [node name="GameLoop" type="Node" unique_id=2042068625]
 script = ExtResource("1_loop")
@@ -62,6 +66,7 @@ noise = SubResource("FastNoiseLite_lxql7")
 threshold = 0.645
 end_y = 300
 tile_type = 2
+preview_color = Color(0.55, 0.6, 0.65, 1)
 metadata/_custom_type_script = "uid://ckq2k0e2x86hh"
 
 [node name="DirtNoiseGenerator" type="Node2D" parent="TilemapManager" unique_id=1083131644]
@@ -70,6 +75,7 @@ noise = SubResource("FastNoiseLite_17ol1")
 threshold = 0.47
 end_y = 300
 blend_mode = 1
+preview_color = Color(0.6, 0.45, 0.3, 1)
 metadata/_custom_type_script = "uid://ckq2k0e2x86hh"
 
 [node name="TextureGenerator" type="Node2D" parent="TilemapManager" unique_id=1107191612]
@@ -77,6 +83,14 @@ script = ExtResource("8_17ol1")
 mask_texture = SubResource("GradientTexture2D_lxql7")
 end_y = 300
 tile_type = 0
+preview_color = Color(0, 0, 0, 0)
+
+[node name="CopperNoiseGenerator" type="Node2D" parent="TilemapManager" unique_id=858970218]
+script = ExtResource("7_nj7sr")
+noise = SubResource("FastNoiseLite_83w3q")
+threshold = 0.8
+tile_type = 3
+preview_color = Color(0.8, 0.4, 0.2, 1)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
 

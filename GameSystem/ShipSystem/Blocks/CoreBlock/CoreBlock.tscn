@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cd2v6b11hr2fq" path="res://GameSystem/ShipSystem/Blocks/CoreBlock/core.svg" id="3_swisv"]
 [ext_resource type="Script" uid="uid://cy6ix3crp2w4f" path="res://GameSystem/ResourceSystem/Inventory.gd" id="4_inv"]
 [ext_resource type="Script" uid="uid://bwe57m0plnlaq" path="res://GameSystem/PlayerSystem/Components/Interactable.gd" id="5_inter"]
+[ext_resource type="Script" path="res://GameSystem/ResourceSystem/Components/ResourceAttractor.gd" id="6_attr"]
 
 [node name="CoreBlock" unique_id=2031234191 instance=ExtResource("1_base")]
 script = ExtResource("2_core")
@@ -27,3 +28,6 @@ script = ExtResource("4_inv")
 [node name="Interactable" type="Area2D" parent="." index="6" unique_id=1839665194]
 script = ExtResource("5_inter")
 prompt_text = "[F] Enter"
+
+[node name="ResourceAttractor" type="Node2D" parent="." index="7"]
+script = ExtResource("6_attr")

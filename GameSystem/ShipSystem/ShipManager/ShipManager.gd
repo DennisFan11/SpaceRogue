@@ -26,8 +26,8 @@ func inject_starting_resources(ship: Ship) -> void:
 	for child in ship.blocks_container.get_children():
 		if child is CoreBlock: # 尋找 CoreBlock
 			if child.inventory:
-				child.inventory.add_resource("metal", 100)
-				child.inventory.add_resource("energy", 50)
+				child.inventory.add_resource(ResourceDB.Type.METAL, 100)
+				child.inventory.add_resource(ResourceDB.Type.ENERGY, 50)
 				print("Injected starting resources to CoreBlock.")
 			break
 

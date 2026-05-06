@@ -20,9 +20,12 @@ func toggle_ui(is_visible: bool) -> void:
 func _process(_delta: float) -> void:
 	if visible and current_core and current_core.inventory:
 		var text := ""
-		for key in current_core.inventory.resources_set.resources.keys():
-			var amount = current_core.inventory.resources_set.resources[key]
-			text += "%s: %d\n" % [key, amount]
+		var res_dict = current_core.inventory.resources_set.resources
+		for type in res_dict.keys():
+			var amount = res_dict[type]
+			var res_data = ResourceDB.get_resource(type)
+			var display_name = res_data.display_name if res_data else "Unknown"
+			text += "%s: %d\n" % [display_name, amount]
 		resource_display.text = text if text != "" else "(無資源)"
 
 ## 動態產生方塊按鈕
