@@ -22,6 +22,16 @@ func _ready() -> void:
 	
 	# 設定相機給 PlayerManager
 	player_manager.main_camera = camera
+	
+	# 發送遊戲開始通知
+	_propagate_game_start(self)
+
+func _propagate_game_start(root: Node) -> void:
+	if root.has_method("_game_start"):
+		root.call("_game_start")
+	
+	for child in root.get_children():
+		_propagate_game_start(child)
 
 func on_player_died() -> void:
 	push_warning("Game Over: Player Died")

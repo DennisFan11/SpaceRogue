@@ -106,13 +106,13 @@ func _blend_tile_at(x: int, y: int, new_type: TileBlockDB.TileType, mode: Tilema
 
 ## 獲取指定位置的瓷磚狀態
 func get_tile_state(x: int, y: int) -> TileState:
-	if x < 0 or x >= map_width or y < 0 or y >= map_height:
-		return null
-	
 	var pos = Vector2i(x, y)
-	# 優先回傳修改過的動態資料
+	# 優先回傳修改過的動態資料 (包含超出原始邊界的資料)
 	if _tile_data_map.has(pos):
 		return _tile_data_map[pos]
+	
+	if x < 0 or x >= map_width or y < 0 or y >= map_height:
+		return null
 	
 	# 否則回傳基於原始網格的初始狀態
 	var type = _id_grid[y][x]
@@ -129,6 +129,10 @@ func set_tile_state(x: int, y: int, state: TileState) -> void:
 		_tile_data_map[pos] = TileState.new(TileBlockDB.TileType.AIR)
 	else:
 		_tile_data_map[pos] = state
+
+## 便利方法：設定瓷磚類型
+func set_tile(grid_pos: Vector2i, type: TileBlockDB.TileType) -> void:
+	set_tile_state(grid_pos.x, grid_pos.y, TileState.new(type))
 
 # --- 存檔與序列化 ---
 
@@ -155,6 +159,12 @@ func deserialize_world_data(data: Dictionary) -> void:
 		_tile_data_map[pos] = TileState.from_dict(tiles_data[pos_str])
 	
 	generate_map()
+
+## 通知地圖數據已變更，需要重新載入場景中的 Chunk
+func notify_data_changed() -> void:
+	var loader = get_node_or_null("WorldLoader")
+	if loader and loader.has_method("refresh_world"):
+		loader.refresh_world()
 
 # --- 座標轉換 ---
 

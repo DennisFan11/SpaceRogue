@@ -56,12 +56,10 @@ func _update_chunks() -> void:
 		_unload_chunk(cpos)
 
 func _load_chunk(cpos: Vector2i) -> void:
-	# 檢查座標是否超出地圖範圍
+	# 由於地圖現在可以超出原始邊界 (例如 CircleTileModifier 修改)，
+	# 我們移除嚴格的邊界檢查，依靠 WorldChunk 內部的 get_tile_state 來決定是否生成方塊。
 	var start_x = cpos.x * chunk_size
 	var start_y = cpos.y * chunk_size
-	if start_x >= manager.map_width or start_y >= manager.map_height or \
-	   start_x + chunk_size <= 0 or start_y + chunk_size <= 0:
-		return
 
 	var chunk = chunk_scene.instantiate() as WorldChunk
 	chunk.chunk_pos = cpos
@@ -82,9 +80,19 @@ func _unload_chunk(cpos: Vector2i) -> void:
 
 ## 重新加載所有內容 (當生成器變更時)
 func refresh_world() -> void:
-	for cpos in active_chunks:
+	# 使用 keys() 複本進行遍歷，避免在迴圈中修改字典導致的跳過問題
+	var current_keys = active_chunks.keys()
+	for cpos in current_keys:
 		_unload_chunk(cpos)
+	
 	active_chunks.clear()
+	
+	# 額外保險：清空容器節點下的所有殘留節點
+	var container = manager.get_node_or_null("ActiveChunks")
+	if container:
+		for child in container.get_children():
+			child.queue_free()
+			
 	_update_chunks()
 
 ## 從 PlayerManager 獲取追蹤目標的位置
