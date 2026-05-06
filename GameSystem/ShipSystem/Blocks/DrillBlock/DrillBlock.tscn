@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://csbn5lg1dqfs7"]
+
+[ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://bcxmlk52xf2rq" path="res://GameSystem/ShipSystem/Blocks/DrillBlock/DrillBlock.gd" id="2_drill"]
+[ext_resource type="Texture2D" uid="uid://dx6aycnckpq5" path="res://GameSystem/ShipSystem/Blocks/DrillBlock/ShipDrill.svg" id="3_22gj5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_drill"]
+size = Vector2(77, 30)
+
+[node name="DrillBlock" unique_id=1119910076 instance=ExtResource("1_base")]
+script = ExtResource("2_drill")
+damage_per_second = 1000.0
+
+[node name="DrillHead" type="Polygon2D" parent="Visual" index="0" unique_id=139453735]
+visible = false
+position = Vector2(0, 32)
+color = Color(0.6, 0.6, 0.7, 1)
+polygon = PackedVector2Array(-24, 0, 24, 0, 0, 40)
+
+[node name="DrillArea" type="Area2D" parent="Visual" index="1" unique_id=493729861]
+position = Vector2(0, 56)
+collision_layer = 0
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/DrillArea" index="0" unique_id=825957708]
+position = Vector2(-0.5, -9)
+shape = SubResource("RectangleShape2D_drill")
+
+[node name="ShipDrill" type="Sprite2D" parent="Visual" index="2" unique_id=387128678]
+position = Vector2(0, 13)
+rotation = 1.5707964
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_22gj5")
