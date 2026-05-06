@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name ResourceManager
 
 ## 資源管理器：負責場景中資源節點的生成與管理
@@ -15,7 +15,7 @@ func spawn_resource(type: ResourceDB.Type, global_pos: Vector2, amount: int = 1)
 	
 	var instance = scene.instantiate() as BaseResourceItem
 	if instance:
-		get_tree().current_scene.add_child(instance)
+		add_child(instance)
 		instance.global_position = global_pos
 		instance.init(type, amount)
 		return instance

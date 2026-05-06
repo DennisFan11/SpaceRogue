@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://GameSystem/VFXSystem/DamageParticles.gd" id="1_script"]
+
+[sub_resource type="Gradient" id="Gradient_particles"]
+offsets = PackedFloat32Array(0, 0.725926, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_particles"]
+gradient = SubResource("Gradient_particles")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dmg"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(1, 0, 0)
+spread = 30.0
+initial_velocity_min = 60.0
+initial_velocity_max = 120.0
+gravity = Vector3(0, 0, 0)
+scale_min = 1.0
+scale_max = 2.5
+color_ramp = SubResource("GradientTexture1D_particles")
+
+[node name="DamageParticles" type="GPUParticles2D"]
+emitting = false
+amount = 8
+process_material = SubResource("ParticleProcessMaterial_dmg")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+script = ExtResource("1_script")

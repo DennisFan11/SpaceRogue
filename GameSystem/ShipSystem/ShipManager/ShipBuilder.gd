@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name ShipBuilder
 
 ## 負責切換建造工具與模式的 Context

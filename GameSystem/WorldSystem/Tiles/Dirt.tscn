@@ -15,6 +15,7 @@ shader_parameter/seed = 12.345
 
 [node name="Dirt" instance=ExtResource("1_base")]
 script = ExtResource("2_dirt")
+preview_color = Color(0.6, 0.45, 0.3, 1)
 
 [node name="Sprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_dirt")

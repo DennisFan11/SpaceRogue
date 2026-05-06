@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name PlayerManager
 
 ## 管理玩家太空人與飛船駕駛模式的切換
@@ -104,7 +104,7 @@ func exit_core() -> void:
 	if player_scene:
 		current_player_instance = player_scene.instantiate() as Player
 		current_player_instance.global_position = ship.global_position + Vector2(100, 0)
-		get_tree().current_scene.add_child(current_player_instance)
+		add_child(current_player_instance)
 		
 		# 恢復裝備
 		if saved_equipment:

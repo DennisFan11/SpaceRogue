@@ -39,11 +39,12 @@ func _process_drilling(delta: float) -> void:
 func _apply_drill_damage() -> void:
 	if ray_cast.is_colliding():
 		var collider = ray_cast.get_collider()
+		var hit_pos = ray_cast.get_collision_point()
 		if collider:
 			# 嘗試尋找 Damageable 組件或 damage 方法
 			if collider.has_method("damage"):
-				collider.damage(damage_per_second * damage_interval)
+				collider.damage(damage_per_second * damage_interval, Team.NEUTRAL, hit_pos)
 			elif collider.has_node("Damageable"):
-				collider.get_node("Damageable").take_damage(damage_per_second * damage_interval, Team.NEUTRAL)
+				collider.get_node("Damageable").take_damage(damage_per_second * damage_interval, Team.NEUTRAL, hit_pos)
 			elif collider is Damageable:
-				collider.take_damage(damage_per_second * damage_interval, Team.NEUTRAL)
+				collider.take_damage(damage_per_second * damage_interval, Team.NEUTRAL, hit_pos)

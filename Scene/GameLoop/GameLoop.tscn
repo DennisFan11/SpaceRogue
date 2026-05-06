@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://0h4iv5q5gv41" path="res://GameSystem/WorldSystem/Generator/TextureGenerator.gd" id="8_17ol1"]
 [ext_resource type="Script" uid="uid://dtuvahnkmeb7x" path="res://GameSystem/EquipmentSystem/EquipmentManager.gd" id="9_em"]
 [ext_resource type="Script" uid="uid://bsbkd0awiktnq" path="res://GameSystem/ResourceSystem/ResourceManager.gd" id="10_rm"]
+[ext_resource type="Script" uid="uid://eil0kxoen8nm" path="res://GameSystem/VFXSystem/VFXManager.gd" id="11_vfx"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lxql7"]
 seed = 1019
@@ -42,21 +43,6 @@ texture_repeat = 2
 color = Color(0.32284462, 0.21168864, 0.39454663, 1)
 texture = ExtResource("2_dvwha")
 polygon = PackedVector2Array(-65372, -27862, 89252, -31574, 91556, 37034, -69468, 35626)
-
-[node name="ShipManager" type="Node" parent="." unique_id=1102009602]
-script = ExtResource("5_sm")
-
-[node name="PlayerManager" type="Node" parent="." unique_id=653058733]
-script = ExtResource("2_pm")
-
-[node name="ShipBuilder" type="Node" parent="." unique_id=993469890]
-script = ExtResource("3_sb")
-
-[node name="EquipmentManager" type="Node" parent="." unique_id=123456789]
-script = ExtResource("9_em")
-
-[node name="ResourceManager" type="Node" parent="." unique_id=987654321]
-script = ExtResource("10_rm")
 
 [node name="TilemapManager" parent="." unique_id=1055940441 instance=ExtResource("6_17ol1")]
 
@@ -91,6 +77,24 @@ noise = SubResource("FastNoiseLite_83w3q")
 threshold = 0.8
 tile_type = 3
 preview_color = Color(0.8, 0.4, 0.2, 1)
+
+[node name="ShipManager" type="Node2D" parent="." unique_id=1102009602]
+script = ExtResource("5_sm")
+
+[node name="ResourceManager" type="Node2D" parent="." unique_id=987654321]
+script = ExtResource("10_rm")
+
+[node name="EquipmentManager" type="Node2D" parent="." unique_id=123456789]
+script = ExtResource("9_em")
+
+[node name="PlayerManager" type="Node2D" parent="." unique_id=653058733]
+script = ExtResource("2_pm")
+
+[node name="ShipBuilder" type="Node2D" parent="." unique_id=993469890]
+script = ExtResource("3_sb")
+
+[node name="VFXManager" type="Node2D" parent="." unique_id=127408032]
+script = ExtResource("11_vfx")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
 

@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name ShipManager
 
 ## 管理場上所有飛船實體 (由 DI 注入)

@@ -1,14 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://olvbq3epoep"]
+[gd_scene format=3 uid="uid://olvbq3epoep"]
 
-[ext_resource type="Script" path="res://GameSystem/ResourceSystem/Scenes/BaseResourceItem.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://d2tj3nsbyh26m" path="res://GameSystem/ResourceSystem/Scenes/BaseResourceItem.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://c2onsujdr3u0b" path="res://GameSystem/ResourceSystem/Scenes/ResSelecter.svg" id="2_s8xa4"]
 
 [sub_resource type="Gradient" id="Gradient_p1"]
-offsets = PackedFloat32Array(0, 1)
 colors = PackedColorArray(0.8, 0.45, 0.1, 0, 0.8, 0.45, 0.1, 0.8)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
-radius = 8.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s8xa4"]
+radius = 19.0
+height = 60.0
 
 [node name="BaseResourceItem" type="RigidBody2D" unique_id=1787044361]
 collision_layer = 32
@@ -30,7 +30,8 @@ end_cap_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1009078301]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1024630946]
-shape = SubResource("CircleShape2D_1")
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_s8xa4")
 
 [node name="ResSelecter" type="Sprite2D" parent="." unique_id=1378711507]
 unique_name_in_owner = true

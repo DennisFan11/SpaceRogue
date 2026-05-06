@@ -4,6 +4,7 @@ class_name Player
 @export var move_speed: float = 300.0
 
 var current_equipment: BaseEquipment = null
+var _equipment_manager: Node2D # DI 注入
 
 @onready var equipment_anchor: Node2D = $EquipmentAnchor
 @onready var interaction_area: Area2D = $InteractionArea
@@ -59,7 +60,10 @@ func _drop_equipment() -> void:
 	
 	# Unparent
 	equipment_anchor.remove_child(equip)
-	get_tree().current_scene.add_child(equip)
+	if _equipment_manager:
+		_equipment_manager.add_child(equip)
+	else:
+		get_tree().current_scene.add_child(equip)
 	
 	# 計算丟出的衝量
 	var drop_dir = (get_global_mouse_position() - global_position).normalized()

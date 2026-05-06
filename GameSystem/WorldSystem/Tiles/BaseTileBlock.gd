@@ -9,6 +9,8 @@ class_name BaseTileBlock
 @onready var damageable: Damageable = $Damageable
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
+var _vfx_manager: Node # DI 注入
+
 func _ready() -> void:
 	# 統一設定碰撞層 (Layer 8: Wall)
 	collision_layer = BitmaskManager.LAYER_WALL
@@ -17,12 +19,24 @@ func _ready() -> void:
 	if damageable:
 		if not damageable.destroyed.is_connected(_on_destroyed):
 			damageable.destroyed.connect(_on_destroyed)
+		if not damageable.hit.is_connected(_on_hit):
+			damageable.hit.connect(_on_hit)
 
 ## 當被摧毀時的預設行為
 func _on_destroyed() -> void:
 	queue_free()
 
+func _on_hit(_amount: float, source_position: Vector2) -> void:
+	if not _vfx_manager:
+		return
+		
+	if source_position != Vector2.ZERO:
+		var dir = (source_position - global_position).normalized()
+		_vfx_manager.play_damage_particles(source_position, preview_color, dir)
+	else:
+		_vfx_manager.play_damage_particles(global_position, preview_color)
+
 ## 支援外部呼叫以相容舊邏輯
-func damage(amount: float, source_team_id: int = Team.NEUTRAL) -> void:
+func damage(amount: float, source_team_id: int = Team.NEUTRAL, source_position: Vector2 = Vector2.ZERO) -> void:
 	if damageable:
-		damageable.take_damage(amount, source_team_id)
+		damageable.take_damage(amount, source_team_id, source_position)

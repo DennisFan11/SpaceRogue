@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name EquipmentManager
 
 ## 裝備管理器：負責裝備的生成與全局控制
@@ -14,9 +14,8 @@ func spawn_equipment(id: String, global_pos: Vector2) -> BaseEquipment:
 		
 	var instance = scene.instantiate() as BaseEquipment
 	if instance:
+		add_child(instance)
 		instance.global_position = global_pos
-		# 預設加到當前場景
-		get_tree().current_scene.add_child(instance)
 		return instance
 	
 	return null
