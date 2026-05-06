@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://energy_resource_item"]
+
+[ext_resource type="PackedScene" uid="uid://olvbq3epoep" path="res://GameSystem/ResourceSystem/Scenes/BaseResourceItem.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="2_icon"]
+
+[node name="EnergyResourceItem" instance=ExtResource("1_base")]
+display_name = "Energy"
+ui_icon = ExtResource("2_icon")
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_icon")

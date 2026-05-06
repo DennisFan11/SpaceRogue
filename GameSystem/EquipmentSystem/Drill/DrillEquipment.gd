@@ -3,11 +3,10 @@ class_name DrillEquipment
 
 ## 鑽頭裝備：用於挖掘與戰鬥
 
-@export var damage_per_second: float = 50.0
+@export var damage_per_second: float = 200.0
 @export var damage_interval: float = 0.1 # 傷害頻率
 
 @onready var ray_cast: RayCast2D = $RayCast2D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var is_using: bool = false
 var damage_timer: float = 0.0
@@ -27,13 +26,9 @@ func _physics_process(delta: float) -> void:
 
 func use_start() -> void:
 	is_using = true
-	if animation_player:
-		animation_player.play("drill_active")
 
 func use_stop() -> void:
 	is_using = false
-	if animation_player:
-		animation_player.play("RESET")
 
 func _process_drilling(delta: float) -> void:
 	damage_timer += delta

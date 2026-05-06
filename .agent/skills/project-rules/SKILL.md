@@ -21,3 +21,6 @@ description: 這個技能描述了有關這個項目的規範 撰寫任意程式
     - 正確用法：`var _player_manager: PlayerManager`
     - 錯誤用法：`var _player_manager: PlayerManager = null`
 - **機制**: 系統會在節點進入場景樹時自動解析依賴。支援 `_on_injected()` 回調以進行初始化。
+
+### 2. 風格:
+- **非必要禁止任何空值防護 應該直接抱錯**

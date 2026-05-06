@@ -62,7 +62,8 @@ func _create_tile_instance(gx: int, gy: int, state: TileState) -> void:
 		
 		if tile.has_node("Damageable"):
 			var dmg = tile.get_node("Damageable") as Damageable
-			dmg.current_hp = state.health
+			if state.health >= 0:
+				dmg.current_hp = state.health
 			dmg.destroyed.connect(_on_tile_destroyed.bind(gx, gy))
 			dmg.health_changed.connect(_on_tile_health_changed.bind(gx, gy))
 

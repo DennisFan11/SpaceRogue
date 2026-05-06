@@ -23,8 +23,7 @@ func _process(_delta: float) -> void:
 		var res_dict = current_core.inventory.resources_set.resources
 		for type in res_dict.keys():
 			var amount = res_dict[type]
-			var res_data = ResourceDB.get_resource(type)
-			var display_name = res_data.display_name if res_data else "Unknown"
+			var display_name = ResourceDB.get_display_name(type)
 			text += "%s: %d\n" % [display_name, amount]
 		resource_display.text = text if text != "" else "(無資源)"
 

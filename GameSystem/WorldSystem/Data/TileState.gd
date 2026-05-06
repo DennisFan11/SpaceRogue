@@ -4,10 +4,10 @@ class_name TileState
 ## 儲存單個瓷磚的動態狀態
 
 @export var type: TileBlockDB.TileType = TileBlockDB.TileType.AIR
-@export var health: float = 100.0
+@export var health: float = -1.0
 @export var custom_data: Dictionary = {}
 
-func _init(p_type: TileBlockDB.TileType = TileBlockDB.TileType.AIR, p_health: float = 100.0) -> void:
+func _init(p_type: TileBlockDB.TileType = TileBlockDB.TileType.AIR, p_health: float = -1.0) -> void:
 	type = p_type
 	health = p_health
 

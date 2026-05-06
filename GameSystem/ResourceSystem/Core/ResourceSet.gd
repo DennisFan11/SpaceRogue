@@ -59,8 +59,8 @@ static func from_resource_cost(cost: ResourceCost) -> ResourceSet:
 	var set = ResourceSet.new()
 	if cost:
 		for c in cost.costs:
-			if c.resource_type:
-				set.set_amount(c.resource_type.type, set.get_amount(c.resource_type.type) + c.amount)
+			if c.type != ResourceDB.Type.NONE:
+				set.set_amount(c.type, set.get_amount(c.type) + c.amount)
 	return set
 
 ## 舊方法兼容

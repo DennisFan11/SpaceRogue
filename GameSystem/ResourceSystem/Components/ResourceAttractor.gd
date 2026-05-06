@@ -45,8 +45,8 @@ func _collect_resource(res: BaseResourceItem) -> void:
 	res.set_state(BaseResourceItem.State.COLLECTED)
 	
 	# 增加倉庫資源
-	if res.resource_type:
-		inventory.add_resource(res.resource_type.type, res.amount)
+	if res.type != ResourceDB.Type.NONE:
+		inventory.add_resource(res.type, res.amount)
 	
 	# 物理效果與銷毀
 	res.queue_free()

@@ -2,6 +2,7 @@ extends RigidBody2D
 class_name BaseResourceItem
 
 ## 資源掉落物的基礎類別，包含狀態機管理採集行為
+## 資料直接定義在場景的導出變數中
 
 enum State {
 	IDLE,
@@ -10,7 +11,12 @@ enum State {
 	COLLECTED
 }
 
-@export var resource_type: ResourceType
+@export_group("Resource Data")
+@export var type: ResourceDB.Type = ResourceDB.Type.NONE
+@export var display_name: String = "Unknown Resource"
+@export var ui_icon: Texture2D
+
+@export_group("Physics")
 @export var amount: int = 1
 
 var current_state: State = State.IDLE
@@ -18,6 +24,7 @@ var target_node: Node2D = null ## 當前互動的對象 (玩家或吸引器)
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var tether_line: Line2D = $TetherLine
+@onready var res_selecter: Sprite2D = %ResSelecter
 
 func _ready() -> void:
 	add_to_group("resource_items")
@@ -34,15 +41,10 @@ func _ready() -> void:
 		tether_line.visible = false
 		tether_line.points = [Vector2.ZERO, Vector2.ZERO]
 	
-	if resource_type:
-		_apply_visual()
+	if res_selecter:
+		res_selecter.visible = false
+	
 
-func _apply_visual() -> void:
-	if sprite:
-		if resource_type.world_icon:
-			sprite.texture = resource_type.world_icon
-		elif resource_type.icon:
-			sprite.texture = resource_type.icon
 
 func _physics_process(_delta: float) -> void:
 	match current_state:
@@ -67,6 +69,9 @@ func set_state(new_state: State, target: Node2D = null) -> void:
 	# 更新連線視覺
 	if tether_line:
 		tether_line.visible = (current_state == State.TETHERED)
+	
+	if res_selecter:
+		res_selecter.visible = (current_state == State.TETHERED)
 
 func _handle_tether_logic() -> void:
 	if not is_instance_valid(target_node): 
@@ -75,7 +80,6 @@ func _handle_tether_logic() -> void:
 	
 	if tether_line:
 		tether_line.visible = true
-		# 因為 TetherLine 設定了 top_level = true，所以使用全域座標
 		tether_line.set_point_position(0, global_position)
 		tether_line.set_point_position(1, target_node.global_position)
 
@@ -84,12 +88,9 @@ func _handle_attraction_logic() -> void:
 		set_state(State.IDLE)
 		return
 	
-	# 吸引時關閉連線視覺 (或者也可以保留，看需求，目前預計關閉)
 	if tether_line: tether_line.visible = false
 
 ## 初始化數據
-func init(type: ResourceType, amt: int) -> void:
-	resource_type = type
+func init(new_type: ResourceDB.Type, amt: int) -> void:
+	type = new_type
 	amount = amt
-	if is_inside_tree():
-		_apply_visual()

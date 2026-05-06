@@ -8,12 +8,7 @@ func _ready() -> void:
 
 ## 在世界中生成資源掉落物
 func spawn_resource(type: ResourceDB.Type, global_pos: Vector2, amount: int = 1) -> BaseResourceItem:
-	var res_type = ResourceDB.get_resource(type)
-	if not res_type:
-		push_warning("ResourceManager: 找不到資源類型 %d" % type)
-		return null
-	
-	var scene = res_type.world_scene
+	var scene = ResourceDB.get_world_scene(type)
 	if not scene:
 		# 如果沒有指定特定場景，使用基礎場景
 		scene = load("res://GameSystem/ResourceSystem/Scenes/BaseResourceItem.tscn")
@@ -22,7 +17,7 @@ func spawn_resource(type: ResourceDB.Type, global_pos: Vector2, amount: int = 1)
 	if instance:
 		get_tree().current_scene.add_child(instance)
 		instance.global_position = global_pos
-		instance.init(res_type, amount)
+		instance.init(type, amount)
 		return instance
 	
 	return null
