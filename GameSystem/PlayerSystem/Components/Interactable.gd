@@ -4,6 +4,7 @@ class_name Interactable
 signal interacted(interactor: Node)
 
 @export var prompt_text: String = "[F] Interact"
+@export var action_name: String = "interact"
 var _label: Label = null
 
 func _ready() -> void:
@@ -21,11 +22,18 @@ func _ready() -> void:
 	_label = Label.new()
 	_label.text = prompt_text
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_label.visible = false
-	# 稍微往上移避免擋住主角
-	_label.position = Vector2(-50, -60)
-	_label.custom_minimum_size = Vector2(100, 20)
+	# 設為正中心 (根據尺寸偏移)
+	_label.custom_minimum_size = Vector2(200, 40)
+	_label.pivot_offset = Vector2(100, 20)
+	_label.position = Vector2(-100, -20)
 	add_child(_label)
+
+func _process(_delta: float) -> void:
+	if _label and _label.visible:
+		# Control 節點沒有 global_rotation，我們透過抵消父節點的全域旋轉來保持水平
+		_label.rotation = -global_rotation
 
 func show_prompt() -> void:
 	if _label:

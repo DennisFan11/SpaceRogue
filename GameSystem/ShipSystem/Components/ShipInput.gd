@@ -5,7 +5,7 @@ var _player_manager: PlayerManager
 
 ## 取得移動輸入 (WASD 平移)
 func get_movement_vector() -> Vector2:
-	if not _player_manager or not _player_manager.is_piloting: return Vector2.ZERO
+	if not _player_manager.is_piloting: return Vector2.ZERO
 	
 	var vec = Vector2.ZERO
 	if Input.is_physical_key_pressed(KEY_W): vec.y -= 1
@@ -19,7 +19,7 @@ func get_movement_vector() -> Vector2:
 
 ## 取得轉向輸入 (QE 旋轉)
 func get_rotation_input() -> float:
-	if not _player_manager or not _player_manager.is_piloting: return 0.0
+	if not _player_manager.is_piloting: return 0.0
 	
 	var rot = 0.0
 	if Input.is_physical_key_pressed(KEY_Q): rot -= 1.0

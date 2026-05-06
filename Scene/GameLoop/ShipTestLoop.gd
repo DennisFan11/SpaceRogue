@@ -31,3 +31,7 @@ func _ready() -> void:
 		add_child(player)
 		# 把 Camera 交給 PlayerManager 管理 (已在 GameLoop 處理，這裡僅設定實體)
 		player_manager.current_player_instance = player
+		
+	# 生成測試裝備
+	if equipment_manager:
+		equipment_manager.spawn_equipment("drill", Vector2(150, 150))

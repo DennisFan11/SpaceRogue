@@ -3,22 +3,25 @@ class_name ResourceDB
 
 ## 資源數據庫：管理所有 ResourceType 資源
 
-static var _resources: Dictionary = {} # id (String) -> ResourceType
+enum Type {
+	NONE,
+	COPPER
+}
+
+static var _resources: Dictionary = {} # Type (int) -> ResourceType
 
 static func _static_init() -> void:
 	_preload_resources()
 
 static func _preload_resources() -> void:
-	# 這裡未來可以改為自動掃描目錄，目前先手動註冊或預載
-	# 例如: _register(load("res://Data/Resources/Metal.tres"))
-	pass
+	_register(Type.COPPER, load("res://Data/Resources/Copper.tres"))
 
-static func _register(res: ResourceType) -> void:
-	if res and res.id != "":
-		_resources[res.id] = res
+static func _register(type: Type, res: ResourceType) -> void:
+	if res:
+		_resources[type] = res
 
-static func get_resource(id: String) -> ResourceType:
-	return _resources.get(id)
+static func get_resource(type: Type) -> ResourceType:
+	return _resources.get(type)
 
 static func get_all_resources() -> Array[ResourceType]:
 	var list: Array[ResourceType] = []

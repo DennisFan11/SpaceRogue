@@ -4,7 +4,7 @@ class_name WorldLoader
 ## 世界加載器：負責追蹤目標並管理 Chunk 的加載與卸載
 
 @export var chunk_size: int = 16
-@export var view_distance: int = 4  ## 加載半徑 (單位：Chunk)
+@export var view_distance: int = 4 ## 加載半徑 (單位：Chunk)
 @export var update_interval: float = 0.1 ## 檢查間隔 (秒)
 
 var manager: TilemapManager
@@ -12,7 +12,7 @@ var chunk_scene: PackedScene = preload("res://GameSystem/WorldSystem/Chunk.tscn"
 var active_chunks: Dictionary = {} ## Vector2i -> Chunk 節點
 
 ## DI 自動注入
-var _player_manager: PlayerManager = null
+var _player_manager: PlayerManager
 
 var _update_timer: float = 0.0
 
@@ -89,11 +89,9 @@ func refresh_world() -> void:
 
 ## 從 PlayerManager 獲取追蹤目標的位置
 func _get_target_position() -> Vector2:
-	if _player_manager:
-		if _player_manager.is_piloting and _player_manager.current_piloted_core:
-			return _player_manager.current_piloted_core.global_position
-		elif _player_manager.current_player_instance:
-			return _player_manager.current_player_instance.global_position
-	
-	# 如果沒有玩家，回傳地圖中心或當前座標
+	if not _player_manager: return global_position
+	if _player_manager.is_piloting and _player_manager.current_piloted_core:
+		return _player_manager.current_piloted_core.global_position
+	elif _player_manager.current_player_instance:
+		return _player_manager.current_player_instance.global_position
 	return global_position

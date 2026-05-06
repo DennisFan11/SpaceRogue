@@ -38,7 +38,7 @@ func _process(_delta: float) -> void:
 		_nearest_interactable = new_nearest
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact"):
-		if is_instance_valid(_nearest_interactable):
+	if is_instance_valid(_nearest_interactable):
+		if event.is_action_pressed(_nearest_interactable.action_name):
 			_nearest_interactable.trigger_interaction(get_parent())
 			get_viewport().set_input_as_handled()

@@ -6,6 +6,7 @@ class_name PlayerManager
 var current_player_instance: Player = null
 var current_piloted_core: CoreBlock = null
 var is_piloting: bool = false
+var saved_equipment: BaseEquipment = null
 
 var player_scene: PackedScene = preload("res://GameSystem/PlayerSystem/Player.tscn")
 var player_ui_scene: PackedScene = preload("res://GameSystem/PlayerSystem/PlayerUI.tscn")
@@ -70,6 +71,13 @@ func enter_core(core: Node) -> void:
 	
 	# 將玩家實體刪除 (進入飛船)
 	if is_instance_valid(current_player_instance):
+		# 如果玩家持有裝備，保存它
+		if current_player_instance.current_equipment:
+			saved_equipment = current_player_instance.current_equipment
+			saved_equipment.get_parent().remove_child(saved_equipment)
+			add_child(saved_equipment)
+			saved_equipment.hide()
+			
 		current_player_instance.queue_free()
 		current_player_instance = null
 	
@@ -97,6 +105,13 @@ func exit_core() -> void:
 		current_player_instance = player_scene.instantiate() as Player
 		current_player_instance.global_position = ship.global_position + Vector2(100, 0)
 		get_tree().current_scene.add_child(current_player_instance)
+		
+		# 恢復裝備
+		if saved_equipment:
+			remove_child(saved_equipment)
+			current_player_instance.pick_up_equipment(saved_equipment)
+			saved_equipment.show()
+			saved_equipment = null
 		
 	current_piloted_core = null
 	print("Player exited core.")

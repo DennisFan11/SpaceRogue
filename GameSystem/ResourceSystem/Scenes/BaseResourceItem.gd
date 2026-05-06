@@ -18,8 +18,11 @@ func _ready() -> void:
 		_apply_visual()
 
 func _apply_visual() -> void:
-	if sprite and resource_type.icon:
-		sprite.texture = resource_type.icon
+	if sprite:
+		if resource_type.world_icon:
+			sprite.texture = resource_type.world_icon
+		elif resource_type.icon:
+			sprite.texture = resource_type.icon
 
 ## 初始化數據
 func init(type: ResourceType, amt: int) -> void:

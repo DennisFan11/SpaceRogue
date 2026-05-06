@@ -6,7 +6,8 @@ class_name TileBlockDB
 enum TileType {
 	AIR,
 	DIRT,
-	STONE
+	STONE,
+	COPPER
 }
 
 ## 每個 Tile 的 PackedScene
@@ -21,6 +22,7 @@ static func _static_init() -> void:
 static func _preload_tiles() -> void:
 	_register(TileType.DIRT, load("res://GameSystem/WorldSystem/Tiles/Dirt.tscn"), Color(0.6, 0.45, 0.3))
 	_register(TileType.STONE, load("res://GameSystem/WorldSystem/Tiles/Stone.tscn"), Color(0.55, 0.6, 0.65))
+	_register(TileType.COPPER, load("res://GameSystem/WorldSystem/Tiles/Copper.tscn"), Color(0.8, 0.4, 0.2))
 	_register(TileType.AIR, null, Color(0, 0, 0, 0))
 
 static func _register(type: TileType, scene: PackedScene, color: Color) -> void:

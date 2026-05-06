@@ -17,8 +17,7 @@ func _ready() -> void:
 	# CoreBlock 由外部明確呼叫
 
 func _on_interacted(interactor: Node) -> void:
-	if _player_manager:
-		_player_manager.enter_core(self)
+	_player_manager.enter_core(self)
 	rotation_degrees = rotation_degrees_snap
 
 func _on_damageable_destroyed() -> void:

@@ -7,7 +7,7 @@ var current_ship: Ship = null
 var is_build_mode_active: bool = false
 
 var build_menu: BuildMenu = null  ## 由 ShipTestLoop 外部賦值
-var _player_manager: PlayerManager = null ## DI 自動注入
+var _player_manager: PlayerManager ## DI 自動注入
 
 var _current_tool: BuildTool = null
 var _place_tool: PlaceTool = null
@@ -22,7 +22,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	# 1. 全局輸入：切換建造模式
 	if current_ship and event.is_action_pressed("build_menu"): # B 鍵
-		if _player_manager and not _player_manager.is_piloting:
+		if not _player_manager.is_piloting:
 			return
 			
 		if is_build_mode_active:
@@ -41,9 +41,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		# 否則給 RemoveTool (處理右鍵拖曳)
 		_remove_tool.handle_input(event)
 
+
 func _process(delta: float) -> void:
 	if is_build_mode_active:
-		if _player_manager and not _player_manager.is_piloting:
+		if not _player_manager.is_piloting:
 			exit_build_mode()
 			return
 			
