@@ -24,7 +24,6 @@ func _create_arrow_visual() -> void:
 		Vector2(7, -20), Vector2(7, 10), Vector2(15, 10)
 	])
 	arrow_visual.color = Color(0, 1, 1, 0.8) # 青色
-	arrow_visual.z_index = 100
 	arrow_visual.hide()
 	builder.add_child(arrow_visual)
 

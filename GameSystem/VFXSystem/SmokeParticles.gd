@@ -1,5 +1,5 @@
 extends GPUParticles2D
 
 func _ready() -> void:
-	# 播放完後自動銷毀
 	finished.connect(queue_free)
+	# emitting 由 VFXManager 設定位置後手動啟動

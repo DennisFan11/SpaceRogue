@@ -21,7 +21,6 @@ func _ensure_selection_visual() -> void:
 		Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)
 	])
 	selection_visual.color = Color(1, 0, 0, 0.3)
-	selection_visual.z_index = 100
 	selection_visual.hide()
 	builder.add_child(selection_visual)
 

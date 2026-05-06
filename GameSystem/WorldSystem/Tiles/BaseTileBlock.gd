@@ -22,7 +22,6 @@ func _ready() -> void:
 		if not damageable.hit.is_connected(_on_hit):
 			damageable.hit.connect(_on_hit)
 
-## 當被摧毀時的預設行為
 func _on_destroyed() -> void:
 	queue_free()
 

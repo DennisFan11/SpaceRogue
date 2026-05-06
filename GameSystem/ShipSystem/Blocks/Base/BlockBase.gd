@@ -12,6 +12,8 @@ var grid_position: Vector2i = Vector2i.ZERO
 @onready var poly_shape: PolyominoShape = $PolyominoShape
 @onready var visual: Node2D = $Visual
 
+var _vfx_manager: Node # DI 注入
+
 # 動態生成的剛體碰撞，只在 BUILT 狀態時有值
 var _active_collisions: Array[CollisionShape2D] = []
 

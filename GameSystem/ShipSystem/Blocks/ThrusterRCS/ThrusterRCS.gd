@@ -7,6 +7,8 @@ class_name ThrusterRCS
 
 var current_activation: float = 0.0
 var _current_direction: Vector2 = Vector2.ZERO
+var _last_smoke_time: int = 0
+const SMOKE_INTERVAL_MS: int = 50
 
 func _process(delta: float) -> void:
 	if current_activation > 0:
@@ -23,4 +25,13 @@ func apply_thrust(physics_body: RigidBody2D, direction: Vector2, amount: float =
 	if not physics_body or amount <= 0.0 or direction.length_squared() < 0.01: return
 	current_activation = amount
 	_current_direction = direction
+	
+	# 產生噴射煙霧
+	if amount > 0.1 and _vfx_manager:
+		var now = Time.get_ticks_msec()
+		if now - _last_smoke_time > SMOKE_INTERVAL_MS:
+			_last_smoke_time = now
+			var exhaust_dir = -direction.normalized()
+			_vfx_manager.play_thruster_smoke(global_position, exhaust_dir, thrust_force * amount * 0.4)
+			
 	physics_body.apply_force(direction.normalized() * thrust_force * amount, global_position - physics_body.global_position)

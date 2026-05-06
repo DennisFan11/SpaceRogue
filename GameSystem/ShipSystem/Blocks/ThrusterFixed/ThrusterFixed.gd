@@ -6,6 +6,8 @@ class_name ThrusterFixed
 @export var thrust_force: float = 800.0
 
 var current_activation: float = 0.0
+var _last_smoke_time: int = 0
+const SMOKE_INTERVAL_MS: int = 50
 
 func _process(delta: float) -> void:
 	if current_activation > 0:
@@ -23,6 +25,15 @@ func _draw() -> void:
 func apply_thrust(physics_body: RigidBody2D, amount: float = 1.0) -> void:
 	if not physics_body or amount <= 0.0: return
 	current_activation = amount
+	
+	# 產生噴射煙霧
+	if amount > 0.1 and _vfx_manager:
+		var now = Time.get_ticks_msec()
+		if now - _last_smoke_time > SMOKE_INTERVAL_MS:
+			_last_smoke_time = now
+			var exhaust_dir = Vector2.DOWN.rotated(global_rotation)
+			var nozzle_pos = global_position + Vector2(0, 96).rotated(global_rotation)
+			_vfx_manager.play_thruster_smoke(nozzle_pos, exhaust_dir, thrust_force * amount * 0.4)
 	# 推力方向為局部 -Y，需依旋轉轉為全局方向
 	var dir = Vector2.UP.rotated(global_rotation)
 	# 施力在推進器的位置，自然產生力矩
