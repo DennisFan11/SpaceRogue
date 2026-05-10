@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://GameSystem/FogSystem/FogManager.gd" id="1_a"]
+[ext_resource type="Shader" path="res://GameSystem/FogSystem/FogShader.gdshader" id="2_b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1"]
+shader = ExtResource("2_b")
+shader_parameter/visible_range = 300.0
+shader_parameter/gradient_width = 100.0
+
+[node name="FogManager" type="Polygon2D"]
+material = SubResource("ShaderMaterial_1")
+polygon = PackedVector2Array(-100000, -100000, 100000, -100000, 100000, 100000, -100000, 100000)
+script = ExtResource("1_a")

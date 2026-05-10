@@ -13,9 +13,12 @@
 [ext_resource type="Script" uid="uid://bsbkd0awiktnq" path="res://GameSystem/ResourceSystem/ResourceManager.gd" id="10_rm"]
 [ext_resource type="Script" uid="uid://eil0kxoen8nm" path="res://GameSystem/VFXSystem/VFXManager.gd" id="11_vfx"]
 [ext_resource type="Script" uid="uid://chk3o5p0hrhh" path="res://GameSystem/EnemySystem/EnemyManager.gd" id="12_enm"]
-[ext_resource type="Script" path="res://GameSystem/CombatSystem/CombatManager.gd" id="13_com"]
-[ext_resource type="Script" path="res://GameSystem/BulletSystem/BulletManager.gd" id="14_bm"]
-[ext_resource type="PackedScene" path="res://GameSystem/ShipSystem/Blocks/Base/HintRangeManager.tscn" id="15_hint"]
+[ext_resource type="Script" uid="uid://bhmw757sx6vny" path="res://GameSystem/CombatSystem/CombatManager.gd" id="13_com"]
+[ext_resource type="Script" uid="uid://bl5j3jcen0l7o" path="res://GameSystem/BulletSystem/BulletManager.gd" id="14_bm"]
+[ext_resource type="PackedScene" uid="uid://suiksug45cem" path="res://GameSystem/ShipSystem/Blocks/Base/HintRangeManager.tscn" id="15_hint"]
+[ext_resource type="PackedScene" path="res://GameSystem/FogSystem/FogManager.tscn" id="16_fog"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hgkpw"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lxql7"]
 seed = 1019
@@ -44,7 +47,7 @@ script = ExtResource("1_loop")
 
 [node name="BG" type="Polygon2D" parent="." unique_id=1371463443]
 texture_repeat = 2
-color = Color(0.32284462, 0.21168864, 0.39454663, 1)
+material = SubResource("ShaderMaterial_hgkpw")
 texture = ExtResource("2_dvwha")
 polygon = PackedVector2Array(-65372, -27862, 89252, -31574, 91556, 37034, -69468, 35626)
 
@@ -82,8 +85,6 @@ threshold = 0.8
 tile_type = 3
 preview_color = Color(0.8, 0.4, 0.2, 1)
 
-[node name="HintRangeManager" parent="." instance=ExtResource("15_hint")]
-
 [node name="ShipManager" type="Node2D" parent="." unique_id=1102009602]
 script = ExtResource("5_sm")
 
@@ -110,6 +111,11 @@ script = ExtResource("13_com")
 
 [node name="BulletManager" type="Node2D" parent="." unique_id=246813579]
 script = ExtResource("14_bm")
+
+[node name="FogManager" parent="." unique_id=1138045319 instance=ExtResource("16_fog")]
+visible = false
+
+[node name="HintRangeManager" parent="." unique_id=1315336396 instance=ExtResource("15_hint")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
 

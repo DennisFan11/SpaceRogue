@@ -1,20 +1,26 @@
-[gd_scene format=3 uid="uid://cx4x1a2b3c4d5"]
+[gd_scene load_steps=6 format=3 uid="uid://cx4x1a2b3c4d5"]
 
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.gd" id="1_a"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockStateMachine.gd" id="2_b"]
-[ext_resource type="Script" path="res://GameSystem/CombatSystem/Damageable.gd" id="3_c"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/PolyominoShape.gd" id="4_d"]
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.gd" id="1"]
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockStateMachine.gd" id="2"]
+[ext_resource type="Script" path="res://GameSystem/CombatSystem/Damageable.gd" id="3"]
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/PolyominoShape.gd" id="4"]
+
+[sub_resource type="OccluderPolygon2D" id="5"]
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 
 [node name="BlockBase" type="Node2D"]
-script = ExtResource("1_a")
+script = ExtResource("1")
 
 [node name="BlockStateMachine" type="Node" parent="."]
-script = ExtResource("2_b")
+script = ExtResource("2")
 
 [node name="Damageable" type="Node" parent="."]
-script = ExtResource("3_c")
+script = ExtResource("3")
 
 [node name="PolyominoShape" type="Node2D" parent="."]
-script = ExtResource("4_d")
+script = ExtResource("4")
 
 [node name="Visual" type="Node2D" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("5")
