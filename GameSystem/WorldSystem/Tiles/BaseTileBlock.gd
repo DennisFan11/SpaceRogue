@@ -28,6 +28,7 @@ func _ready() -> void:
 		if damageable:
 			if state and state.health >= 0:
 				damageable.current_hp = state.health
+				damageable.health_changed.emit(damageable.current_hp, damageable.max_hp)
 				
 			damageable.destroyed.connect(func():
 				_tilemap_manager.set_tile_state(gx, gy, null)

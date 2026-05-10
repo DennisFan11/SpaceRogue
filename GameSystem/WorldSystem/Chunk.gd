@@ -16,7 +16,7 @@ func _spawn_tiles() -> void:
 	var start_y = chunk_pos.y * chunk_size
 	
 	var timer = CooldownTimer.new()
-	timer.trigger(0.01)
+	timer.trigger(0.001)
 	
 	for offset_y in range(chunk_size):
 		for offset_x in range(chunk_size):
@@ -29,12 +29,12 @@ func _spawn_tiles() -> void:
 			
 			_create_tile_instance(gx, gy, state)
 			
-		if not _is_in_view() and not timer.is_ready():
-			await get_tree().process_frame
-			if not is_inside_tree():
-				return
-				
-		timer.trigger(0.01)
+			if not _is_in_view() and not timer.is_ready():
+				await get_tree().process_frame
+				#if not is_inside_tree():
+					#return
+				#
+		timer.trigger(0.001)
 
 func _create_tile_instance(gx: int, gy: int, state: TileState) -> void:
 	var tile = TileBlockDB.instantiate_tile(state.type)
@@ -43,6 +43,7 @@ func _create_tile_instance(gx: int, gy: int, state: TileState) -> void:
 		tile.position = _tilemap_manager.grid_to_local(gx, gy) - global_position
 
 func _is_in_view() -> bool:
+	return false
 	if not _player_manager:
 		return false
 		
@@ -56,4 +57,4 @@ func _is_in_view() -> bool:
 		
 	var dist = global_position.distance_to(target_pos)
 	# 1500 像素大約涵蓋了螢幕可見範圍 (1920x1080) 的一半對角線加上一些緩衝
-	return dist < 1500.0
+	return dist < 800.0

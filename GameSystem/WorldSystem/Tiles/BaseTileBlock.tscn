@@ -2,15 +2,10 @@
 
 [ext_resource type="Script" uid="uid://d4bjk4iw1mly0" path="res://GameSystem/WorldSystem/Tiles/BaseTileBlock.gd" id="1_base"]
 [ext_resource type="Script" uid="uid://6l6f10rtvj1x" path="res://GameSystem/CombatSystem/Damageable.gd" id="2_dmg"]
-[ext_resource type="Shader" path="res://GameSystem/WorldSystem/Tiles/Shaders/Destruction.gdshader" id="3_shader"]
+
 [ext_resource type="Script" path="res://GameSystem/WorldSystem/Tiles/CrackOverlay.gd" id="4_script"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_crack"]
-resource_local_to_scene = true
-shader = ExtResource("3_shader")
-shader_parameter/progress = 0.0
-shader_parameter/scale = 4.0
-shader_parameter/crack_color = Color(0, 0, 0, 1)
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_base"]
 size = Vector2(64, 64)
@@ -30,7 +25,6 @@ scale = Vector2(0.5, 0.5)
 script = ExtResource("2_dmg")
 
 [node name="CrackOverlay" type="ColorRect" parent="." unique_id=25865047]
-material = SubResource("ShaderMaterial_crack")
 offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0

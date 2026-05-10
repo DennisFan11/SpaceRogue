@@ -64,3 +64,5 @@ pick_up={
 
 rendering_device/driver.windows="d3d12"
 viewport/hdr_2d=true
+2d/sdf/oversize=0
+2d/sdf/scale=2
