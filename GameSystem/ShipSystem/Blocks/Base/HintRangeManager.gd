@@ -19,33 +19,50 @@ var category_colors = {
 	}
 }
 
-# 儲存註冊的資料
-# 格式: { "category": [ { "points": PackedVector2Array, "border": PackedVector2Array }, ... ] }
-var _registered_data = {}
+# 儲存註冊的節點，而不是頂點資料
+var _indicators: Array[RangeIndicator] = []
 
 func _ready() -> void:
 	DI.register("_hint_range_manager", self)
 
 func _process(_delta: float) -> void:
-	# 每幀清空，等待節點重新註冊，以自動處理移動與刪除
-	_registered_data.clear()
-	# 觸發重新繪製
+	# 每幀重繪即可，資料由 Indicator 節點即時提供
 	queue_redraw()
 
-func register_range(category: String, fill_points_global: PackedVector2Array, border_points_global: PackedVector2Array) -> void:
-	if not category in _registered_data:
-		_registered_data[category] = []
-	_registered_data[category].append({
-		"points": fill_points_global,
-		"border": border_points_global
-	})
+func register_indicator(indicator: RangeIndicator) -> void:
+	if not _indicators.has(indicator):
+		_indicators.append(indicator)
+
+func unregister_indicator(indicator: RangeIndicator) -> void:
+	_indicators.erase(indicator)
 
 func _draw() -> void:
 	if not DebugSetting.force_show_range_indicators and not BuildMenu.is_menu_open:
 		return
 		
-	for category in _registered_data.keys():
-		var shapes = _registered_data[category]
+	# 收集所有有效 Indicator 的資料
+	var data_by_category = {}
+	
+	for indicator in _indicators:
+		if not is_instance_valid(indicator):
+			continue
+			
+		var data = indicator.get_global_points()
+		if data.is_empty():
+			continue
+			
+		var category = data["category"]
+		if not category in data_by_category:
+			data_by_category[category] = []
+			
+		data_by_category[category].append({
+			"points": data["fill"],
+			"border": data["border"]
+		})
+		
+	# 開始分類繪製
+	for category in data_by_category.keys():
+		var shapes = data_by_category[category]
 		var colors = category_colors.get(category, {
 			"fill": Color(1, 1, 1, 0.05),
 			"border": Color(1, 1, 1, 0.4),

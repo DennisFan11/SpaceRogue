@@ -13,9 +13,15 @@ class_name RangeIndicator
 var _hint_range_manager: HintRangeManager # DI 注入
 
 func _ready() -> void:
-	pass
+	# 直接信任 DI 系統
+	_hint_range_manager.register_indicator(self)
 
-func _process(_delta: float) -> void:
+func _exit_tree() -> void:
+	if _hint_range_manager:
+		_hint_range_manager.unregister_indicator(self)
+
+## 供 HintRangeManager 呼叫以取得當前幀的世界座標頂點
+func get_global_points() -> Dictionary:
 	var should_show = false
 	
 	if DebugSetting.force_show_range_indicators:
@@ -28,21 +34,27 @@ func _process(_delta: float) -> void:
 			if parent.state_machine.current_state == BlockStateMachine.State.BLUEPRINT:
 				should_show = true
 				
-	if should_show and _hint_range_manager:
-		var is_full_circle = angle_degrees >= 360.0
-		var local_points = _get_sector_points()
-		var global_fill_points = PackedVector2Array()
-		for p in local_points:
-			global_fill_points.append(to_global(p))
-			
-		var global_border_points = global_fill_points.duplicate()
-		if is_full_circle:
-			if global_fill_points.size() > 0:
-				global_border_points.append(global_fill_points[0]) # 閉合圓形
-		else:
-			global_border_points.append(to_global(Vector2.ZERO)) # 閉合扇形到圓心
+	if not should_show:
+		return {}
 		
-		_hint_range_manager.register_range(category, global_fill_points, global_border_points)
+	var is_full_circle = angle_degrees >= 360.0
+	var local_points = _get_sector_points()
+	var global_fill_points = PackedVector2Array()
+	for p in local_points:
+		global_fill_points.append(to_global(p))
+		
+	var global_border_points = global_fill_points.duplicate()
+	if is_full_circle:
+		if global_fill_points.size() > 0:
+			global_border_points.append(global_fill_points[0]) # 閉合圓形
+	else:
+		global_border_points.append(to_global(Vector2.ZERO)) # 閉合扇形到圓心
+		
+	return {
+		"fill": global_fill_points,
+		"border": global_border_points,
+		"category": category
+	}
 
 func _get_sector_points() -> PackedVector2Array:
 	var points = PackedVector2Array()

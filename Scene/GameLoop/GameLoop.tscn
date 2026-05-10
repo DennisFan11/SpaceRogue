@@ -48,6 +48,7 @@ script = ExtResource("1_loop")
 [node name="BG" type="Polygon2D" parent="." unique_id=1371463443]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_hgkpw")
+color = Color(0.25246584, 0.17441437, 0.3941743, 1)
 texture = ExtResource("2_dvwha")
 polygon = PackedVector2Array(-65372, -27862, 89252, -31574, 91556, 37034, -69468, 35626)
 
@@ -115,9 +116,9 @@ script = ExtResource("14_bm")
 [node name="FogManager" parent="." unique_id=1138045319 instance=ExtResource("16_fog")]
 visible = false
 
-[node name="HintRangeManager" parent="." unique_id=1315336396 instance=ExtResource("15_hint")]
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
+
+[node name="HintRangeManager" parent="." unique_id=1315336396 instance=ExtResource("15_hint")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=635959854]
 
