@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bugenemy"]
+
+[ext_resource type="Script" uid="uid://biv4p1oqfcjjs" path="res://GameSystem/EnemySystem/Bug/BugEnemy.gd" id="1_bug"]
+[ext_resource type="Script" uid="uid://6l6f10rtvj1x" path="res://GameSystem/CombatSystem/Damageable.gd" id="2_dmg"]
+[ext_resource type="Texture2D" uid="uid://3ee11km662le" path="res://GameSystem/EnemySystem/Bug/Worm.svg" id="2_ervv2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 12.0
+
+[node name="BugEnemy" type="CharacterBody2D" unique_id=2030215164]
+script = ExtResource("1_bug")
+
+[node name="Worm" type="Sprite2D" parent="." unique_id=1230908664]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("2_ervv2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1680583652]
+shape = SubResource("CircleShape2D_1")
+
+[node name="Visual" type="Polygon2D" parent="." unique_id=1819321102]
+visible = false
+color = Color(1, 0.2, 0.2, 1)
+polygon = PackedVector2Array(-10, -10, 10, 0, -10, 10)
+
+[node name="Damageable" type="Node" parent="." unique_id=1946777605]
+script = ExtResource("2_dmg")
+max_hp = 30.0

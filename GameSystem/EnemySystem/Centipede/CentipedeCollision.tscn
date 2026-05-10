@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://oa0ipxvkrguo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 28.0
+
+[node name="CentipedeCollision" type="CollisionShape2D" unique_id=21559099]
+shape = SubResource("CircleShape2D_1")

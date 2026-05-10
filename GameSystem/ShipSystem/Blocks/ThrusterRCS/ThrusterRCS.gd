@@ -4,11 +4,21 @@ class_name ThrusterRCS
 ## RCS 姿態控制推進器：1x1，支援全向微調推力
 ## 通常由 ThrusterController 依質心差計算分配推力
 @export var thrust_force: float = 200.0
+@export var indicator_angle_degrees: float = 360.0
 
 var current_activation: float = 0.0
 var _current_direction: Vector2 = Vector2.ZERO
 var _last_smoke_time: int = 0
 const SMOKE_INTERVAL_MS: int = 50
+
+func _ready() -> void:
+	super._ready()
+	var indicator = RangeIndicator.new()
+	indicator.radius = thrust_force
+	indicator.angle_degrees = indicator_angle_degrees
+	indicator.direction = Vector2.DOWN
+	indicator.category = "thruster"
+	add_child(indicator)
 
 func _process(delta: float) -> void:
 	if current_activation > 0:

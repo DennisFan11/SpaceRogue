@@ -11,6 +11,15 @@ var current_gimbal: float = 0.0
 var _last_smoke_time: int = 0
 const SMOKE_INTERVAL_MS: int = 50
 
+func _ready() -> void:
+	super._ready()
+	var indicator = RangeIndicator.new()
+	indicator.radius = thrust_force
+	indicator.angle_degrees = angle_offset_deg * 2.0
+	indicator.direction = Vector2.DOWN
+	indicator.category = "thruster"
+	add_child(indicator)
+
 func _process(delta: float) -> void:
 	if current_activation > 0:
 		current_activation = lerp(current_activation, 0.0, 15.0 * delta)

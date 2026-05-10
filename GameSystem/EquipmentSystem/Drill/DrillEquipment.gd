@@ -10,13 +10,14 @@ class_name DrillEquipment
 
 var is_using: bool = false
 var damage_timer: float = 0.0
+var _combat_manager: CombatManager
 
 func _ready() -> void:
 	equipment_id = "Drill"
 	super._ready()
 	# 設定 RayCast2D 偵測牆壁與敵人
 	ray_cast.enabled = true
-	ray_cast.collision_mask = BitmaskManager.LAYER_WALL | BitmaskManager.LAYER_SHIP | BitmaskManager.LAYER_INTERACTABLE
+	ray_cast.collision_mask = BitmaskManager.LAYER_WALL | BitmaskManager.LAYER_SHIP | BitmaskManager.LAYER_INTERACTABLE | BitmaskManager.LAYER_ENEMY
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
@@ -41,10 +42,5 @@ func _apply_drill_damage() -> void:
 		var collider = ray_cast.get_collider()
 		var hit_pos = ray_cast.get_collision_point()
 		if collider:
-			# 嘗試尋找 Damageable 組件或 damage 方法
-			if collider.has_method("damage"):
-				collider.damage(damage_per_second * damage_interval, Team.NEUTRAL, hit_pos)
-			elif collider.has_node("Damageable"):
-				collider.get_node("Damageable").take_damage(damage_per_second * damage_interval, Team.NEUTRAL, hit_pos)
-			elif collider is Damageable:
-				collider.take_damage(damage_per_second * damage_interval, Team.NEUTRAL, hit_pos)
+			if _combat_manager:
+				_combat_manager.apply_damage(collider, hit_pos, damage_per_second * damage_interval, Team.PLAYER)

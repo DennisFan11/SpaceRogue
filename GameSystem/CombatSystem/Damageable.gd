@@ -8,6 +8,7 @@ signal hit(amount: float, source_position: Vector2)
 ## 陣營 ID。用以區分敵我，避免誤傷 (使用 Team 類定義的常量)
 @export var team_id: int = Team.NEUTRAL
 @export var max_hp: float = 100.0
+@export var armor: float = 0.0
 
 var current_hp: float
 
@@ -23,9 +24,10 @@ func take_damage(amount: float, source_team_id: int, source_position: Vector2 = 
 	if current_hp <= 0:
 		return
 		
-	current_hp = max(0.0, current_hp - amount)
+	var effective_damage = max(0.0, amount - armor)
+	current_hp = max(0.0, current_hp - effective_damage)
 	health_changed.emit(current_hp, max_hp)
-	hit.emit(amount, source_position)
+	hit.emit(effective_damage, source_position)
 	
 	if current_hp <= 0:
 		destroyed.emit()

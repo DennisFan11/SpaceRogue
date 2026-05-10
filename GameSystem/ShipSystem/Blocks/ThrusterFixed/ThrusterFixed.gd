@@ -4,10 +4,20 @@ class_name ThrusterFixed
 ## 單向固定推進器：2x1，只往 -Y (上) 方向噴射
 ## 旋轉後噴射方向隨 rotation_degrees_snap 改變
 @export var thrust_force: float = 800.0
+@export var indicator_angle_degrees: float = 0.0
 
 var current_activation: float = 0.0
 var _last_smoke_time: int = 0
 const SMOKE_INTERVAL_MS: int = 50
+
+func _ready() -> void:
+	super._ready()
+	var indicator = RangeIndicator.new()
+	indicator.radius = thrust_force
+	indicator.angle_degrees = indicator_angle_degrees
+	indicator.direction = Vector2.DOWN
+	indicator.category = "thruster"
+	add_child(indicator)
 
 func _process(delta: float) -> void:
 	if current_activation > 0:

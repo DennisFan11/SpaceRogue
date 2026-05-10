@@ -3,6 +3,8 @@ class_name BuildMenu
 
 signal on_block_selected(block_id: String)
 
+static var is_menu_open: bool = false
+
 @onready var resource_display: RichTextLabel = $ResourcePanel/ResourceDisplay
 @onready var grid_container: GridContainer = $Panel/GridContainer
 
@@ -14,6 +16,7 @@ func _ready() -> void:
 
 func toggle_ui(is_visible: bool) -> void:
 	visible = is_visible
+	is_menu_open = is_visible
 	if is_visible:
 		_populate_block_buttons()
 

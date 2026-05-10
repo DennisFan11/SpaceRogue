@@ -20,6 +20,8 @@ const DAMAGE_INTERVAL: float = 0.05
 var _physics_body: RigidBody2D = null
 var _width_tween: Tween = null
 
+var _combat_manager: CombatManager
+
 func _on_injected() -> void:
 	pass
 
@@ -34,8 +36,14 @@ func _ready() -> void:
 	line_2d.visible = false
 	ray_cast.target_position = Vector2(0, laser_range)
 	
-	# 設定碰撞遮罩：飛船與牆體
-	ray_cast.collision_mask = BitmaskManager.create_mask([BitmaskManager.LAYER_SHIP, BitmaskManager.LAYER_WALL])
+	var indicator = RangeIndicator.new()
+	indicator.radius = laser_range
+	indicator.angle_degrees = tracking_angle * 2.0
+	indicator.direction = Vector2.DOWN
+	add_child(indicator)
+	
+	# 設定碰撞遮罩：飛船與牆體與敵人
+	ray_cast.collision_mask = BitmaskManager.create_mask([BitmaskManager.LAYER_SHIP, BitmaskManager.LAYER_WALL, BitmaskManager.LAYER_ENEMY])
 	
 	# 延遲設定例外
 	call_deferred("_setup_references")
@@ -152,9 +160,5 @@ func _apply_damage(collider: Object, hit_point: Vector2) -> void:
 	var damage_amount = damage_per_second * DAMAGE_INTERVAL
 	var source_team = Team.PLAYER
 	
-	if collider.has_method("damage"):
-		collider.damage(damage_amount, source_team, hit_point)
-	elif collider.has_node("Damageable"):
-		collider.get_node("Damageable").take_damage(damage_amount, source_team, hit_point)
-	elif collider is Damageable:
-		collider.take_damage(damage_amount, source_team, hit_point)
+	if _combat_manager:
+		_combat_manager.apply_damage(collider, hit_point, damage_amount, source_team)

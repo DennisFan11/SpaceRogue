@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://headvisual"]
+
+[ext_resource type="Texture2D" uid="uid://bsmgtoho4a748" path="res://GameSystem/EnemySystem/Centipede/WormHead.svg" id="1_qquq1"]
+
+[node name="CentipedeHeadVisual" type="Node2D" unique_id=411066330]
+
+[node name="WormHead" type="Sprite2D" parent="." unique_id=236698833]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_qquq1")

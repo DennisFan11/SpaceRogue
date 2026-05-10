@@ -12,6 +12,10 @@
 [ext_resource type="Script" uid="uid://dtuvahnkmeb7x" path="res://GameSystem/EquipmentSystem/EquipmentManager.gd" id="9_em"]
 [ext_resource type="Script" uid="uid://bsbkd0awiktnq" path="res://GameSystem/ResourceSystem/ResourceManager.gd" id="10_rm"]
 [ext_resource type="Script" uid="uid://eil0kxoen8nm" path="res://GameSystem/VFXSystem/VFXManager.gd" id="11_vfx"]
+[ext_resource type="Script" uid="uid://chk3o5p0hrhh" path="res://GameSystem/EnemySystem/EnemyManager.gd" id="12_enm"]
+[ext_resource type="Script" path="res://GameSystem/CombatSystem/CombatManager.gd" id="13_com"]
+[ext_resource type="Script" path="res://GameSystem/BulletSystem/BulletManager.gd" id="14_bm"]
+[ext_resource type="PackedScene" path="res://GameSystem/ShipSystem/Blocks/Base/HintRangeManager.tscn" id="15_hint"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lxql7"]
 seed = 1019
@@ -78,6 +82,8 @@ threshold = 0.8
 tile_type = 3
 preview_color = Color(0.8, 0.4, 0.2, 1)
 
+[node name="HintRangeManager" parent="." instance=ExtResource("15_hint")]
+
 [node name="ShipManager" type="Node2D" parent="." unique_id=1102009602]
 script = ExtResource("5_sm")
 
@@ -95,6 +101,15 @@ script = ExtResource("3_sb")
 
 [node name="VFXManager" type="Node2D" parent="." unique_id=127408032]
 script = ExtResource("11_vfx")
+
+[node name="EnemyManager" type="Node2D" parent="." unique_id=1510712]
+script = ExtResource("12_enm")
+
+[node name="CombatManager" type="Node2D" parent="." unique_id=135792468]
+script = ExtResource("13_com")
+
+[node name="BulletManager" type="Node2D" parent="." unique_id=246813579]
+script = ExtResource("14_bm")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
 

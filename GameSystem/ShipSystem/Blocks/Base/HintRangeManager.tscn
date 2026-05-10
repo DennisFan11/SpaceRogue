@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://suiksug45cem"]
+
+[ext_resource type="Script" uid="uid://byb88n1pb3rby" path="res://GameSystem/ShipSystem/Blocks/Base/HintRangeManager.gd" id="1_hint"]
+
+[node name="HintRangeManager" type="Node2D" unique_id=1538585400]
+script = ExtResource("1_hint")

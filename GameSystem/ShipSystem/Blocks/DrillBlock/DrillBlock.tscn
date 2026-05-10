@@ -20,7 +20,7 @@ polygon = PackedVector2Array(-24, 0, 24, 0, 0, 40)
 [node name="DrillArea" type="Area2D" parent="Visual" index="1" unique_id=493729861]
 position = Vector2(0, 56)
 collision_layer = 0
-collision_mask = 10
+collision_mask = 138
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/DrillArea" index="0" unique_id=825957708]
 position = Vector2(-0.5, -9)

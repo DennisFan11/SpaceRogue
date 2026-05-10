@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://twincannon"]
+
+[ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://dnilpsbutiqcq" path="res://GameSystem/ShipSystem/Blocks/TwinCannon/TwinCannon.gd" id="2_cannon"]
+[ext_resource type="Texture2D" uid="uid://c2p1vhcdggd3o" path="res://GameSystem/ShipSystem/Blocks/TwinCannon/DouTurret2.svg" id="3_51gwe"]
+[ext_resource type="Texture2D" uid="uid://8u521fcbp458" path="res://GameSystem/ShipSystem/Blocks/TwinCannon/DouTurret.svg" id="4_jd68k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tracking"]
+radius = 250.0
+
+[node name="TwinCannon" unique_id=987654321 instance=ExtResource("1_base")]
+script = ExtResource("2_cannon")
+fire_rate = 2.0
+damage_per_bullet = 40.0
+tracking_radius = 1000.0
+rotation_speed = 8.0
+
+[node name="DouTurret" type="Sprite2D" parent="Visual" index="0" unique_id=1283260528]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_jd68k")
+
+[node name="TurretHead" type="Node2D" parent="Visual" index="1" unique_id=665886022]
+
+[node name="LeftMuzzle" type="Marker2D" parent="Visual/TurretHead" index="0" unique_id=1466202521]
+position = Vector2(-10, 60)
+
+[node name="RightMuzzle" type="Marker2D" parent="Visual/TurretHead" index="1" unique_id=1350111246]
+position = Vector2(11, 60)
+
+[node name="DouTurret2" type="Sprite2D" parent="Visual/TurretHead" index="2" unique_id=199293928]
+position = Vector2(0, 19)
+rotation = 1.5707964
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_51gwe")
+
+[node name="TrackingArea" type="Area2D" parent="Visual" index="2" unique_id=1063658480]
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/TrackingArea" index="0" unique_id=1040914231]
+shape = SubResource("CircleShape2D_tracking")

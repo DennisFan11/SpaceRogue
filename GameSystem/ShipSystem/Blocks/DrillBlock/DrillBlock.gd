@@ -6,6 +6,8 @@ extends BlockBase
 var _damage_timer: float = 0.0
 const DAMAGE_INTERVAL: float = 0.01
 
+var _combat_manager: CombatManager
+
 func _physics_process(delta: float) -> void:
 	# 只有在已建造狀態才發揮作用
 	if state_machine.current_state != BlockStateMachine.State.BUILT:
@@ -20,16 +22,16 @@ func _apply_drill_damage() -> void:
 	var damage_amount = damage_per_second * DAMAGE_INTERVAL
 	var source_pos = drill_area.global_position
 	
-	# 處理物理實體 (TileBlocks, Ships)
+	if not _combat_manager:
+		return
+	
+	# 處理物理實體 (TileBlocks, Ships, Enemies)
 	var bodies = drill_area.get_overlapping_bodies()
 	for body in bodies:
 		if body == get_parent().get_parent(): # 排除自己的飛船 (RigidBody2D)
 			continue
-			
-		if body.has_method("damage"):
-			body.damage(damage_amount, Team.PLAYER, source_pos)
-		elif body.has_node("Damageable"):
-			body.get_node("Damageable").take_damage(damage_amount, source_pos)
+		
+		_combat_manager.apply_damage(body, source_pos, damage_amount, Team.PLAYER)
 
 	# 處理區域 (其他 Damageable 組件)
 	var areas = drill_area.get_overlapping_areas()
@@ -39,7 +41,4 @@ func _apply_drill_damage() -> void:
 		var parent = area.get_parent()
 		if parent == self: continue
 		
-		if area is Damageable:
-			area.take_damage(damage_amount, source_pos)
-		elif parent.has_node("Damageable"):
-			parent.get_node("Damageable").take_damage(damage_amount, source_pos)
+		_combat_manager.apply_damage(area, source_pos, damage_amount, Team.PLAYER)

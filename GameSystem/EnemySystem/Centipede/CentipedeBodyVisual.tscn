@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bodyvisual"]
+
+[ext_resource type="Texture2D" uid="uid://bwvs4eptq58yg" path="res://GameSystem/EnemySystem/Centipede/WormBody.svg" id="1_pb2bd"]
+
+[node name="CentipedeBodyVisual" type="Node2D" unique_id=1036428569]
+
+[node name="WormBody" type="Sprite2D" parent="." unique_id=2078409074]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_pb2bd")

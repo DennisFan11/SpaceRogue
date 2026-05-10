@@ -13,6 +13,12 @@ func _ready() -> void:
 	collision_layer = BitmaskManager.LAYER_PLAYER
 	collision_mask = BitmaskManager.LAYER_WALL
 	
+	# 初始化血量系統 (1 HP)
+	var damageable = Damageable.new()
+	damageable.name = "Damageable"
+	damageable.max_hp = 1.0
+	damageable.team_id = Team.PLAYER
+	add_child(damageable)
 	# 如果 PlayerManager 有暫存的裝備，在這裡重新掛載 (這部分由 PlayerManager 處理，或由 Player 初始化)
 
 func _physics_process(_delta: float) -> void:

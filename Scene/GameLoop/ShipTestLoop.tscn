@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://boas5k71v8d03" path="res://Scene/GameLoop/ShipTestLoop.gd" id="2_test"]
 [ext_resource type="Texture2D" uid="uid://by0vty5ertvir" path="res://icon.svg" id="3_icon"]
 [ext_resource type="Script" uid="uid://bup7meu2igcg5" path="res://GameSystem/WorldSystem/Generator/CircleTileModifier.gd" id="4_nqgcu"]
+[ext_resource type="Script" uid="uid://4p6u2c6j3662" path="res://GameSystem/EnemySystem/EnemySpawnerTool.gd" id="5_mg82b"]
 
 [node name="ShipTestLoop" unique_id=191581590 instance=ExtResource("1_base")]
 script = ExtResource("2_test")
@@ -31,3 +32,13 @@ end_y = 3000
 [node name="CircleTileModifier" type="Node2D" parent="MapNode" parent_id_path=PackedInt32Array(834168712) index="0" unique_id=1739112628]
 position = Vector2(-607, 672)
 script = ExtResource("4_nqgcu")
+
+[node name="EnemySpawnerTool" type="Node2D" parent="MapNode" parent_id_path=PackedInt32Array(834168712) index="1" unique_id=771763636]
+position = Vector2(123, -6338)
+script = ExtResource("5_mg82b")
+
+[node name="EnemySpawnerToolcentipede" type="Node2D" parent="MapNode" parent_id_path=PackedInt32Array(834168712) index="2" unique_id=1624363009]
+position = Vector2(-168, -6354)
+script = ExtResource("5_mg82b")
+enemy_id = "centipede"
+metadata/_custom_type_script = "uid://4p6u2c6j3662"

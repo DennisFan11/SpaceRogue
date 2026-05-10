@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://pg4b80u2enp5"]
+
+[ext_resource type="Script" uid="uid://t1mtpmr6fto3" path="res://GameSystem/EnemySystem/Centipede/CentipedeSegment.gd" id="1_centi"]
+[ext_resource type="Script" uid="uid://6l6f10rtvj1x" path="res://GameSystem/CombatSystem/Damageable.gd" id="2_dmg"]
+[ext_resource type="PackedScene" uid="uid://headvisual" path="res://GameSystem/EnemySystem/Centipede/CentipedeHeadVisual.tscn" id="3_head"]
+[ext_resource type="PackedScene" uid="uid://bodyvisual" path="res://GameSystem/EnemySystem/Centipede/CentipedeBodyVisual.tscn" id="4_body"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 30.0
+
+[node name="CentipedeSegment" type="CharacterBody2D" unique_id=2130300228]
+script = ExtResource("1_centi")
+follow_distance = 75.0
+is_head = true
+initial_length = 10
+
+[node name="CentipedeHeadVisual" parent="." unique_id=471480278 instance=ExtResource("3_head")]
+
+[node name="CentipedeBodyVisual" parent="." unique_id=166901172 instance=ExtResource("4_body")]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=460953333]
+shape = SubResource("CircleShape2D_1")
+
+[node name="Damageable" type="Node" parent="." unique_id=1205470364]
+script = ExtResource("2_dmg")
+max_hp = 40.0
