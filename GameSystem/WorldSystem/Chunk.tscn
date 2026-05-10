@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bbrh0u7mwf8po"]
 
-[ext_resource type="Script" path="res://GameSystem/WorldSystem/Chunk.gd" id="1_chunk"]
+[ext_resource type="Script" uid="uid://dwe7nmiw600mc" path="res://GameSystem/WorldSystem/Chunk.gd" id="1_chunk"]
 
-[node name="Chunk" type="Node2D"]
+[node name="Chunk" type="Node2D" unique_id=1191567574]
 script = ExtResource("1_chunk")

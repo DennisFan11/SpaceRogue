@@ -19,3 +19,6 @@ scale = Vector2(0.5, 0.5)
 
 [node name="Damageable" type="Node" parent="." unique_id=881118541]
 script = ExtResource("2_dmg")
+
+[connection signal="destroyed" from="Damageable" to="." method="_on_destroyed"]
+[connection signal="hit" from="Damageable" to="." method="_on_hit"]

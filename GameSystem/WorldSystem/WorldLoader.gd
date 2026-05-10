@@ -64,7 +64,6 @@ func _load_chunk(cpos: Vector2i) -> void:
 	var chunk = chunk_scene.instantiate() as WorldChunk
 	chunk.chunk_pos = cpos
 	chunk.chunk_size = chunk_size
-	chunk.manager = manager
 	
 	# 設定 Chunk 位置 (世界座標)
 	chunk.position = manager.grid_to_local(start_x, start_y)
