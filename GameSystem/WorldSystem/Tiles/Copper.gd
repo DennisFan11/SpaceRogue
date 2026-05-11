@@ -6,6 +6,9 @@ var _resource_manager: ResourceManager
 
 func _ready() -> void:
 	super._ready()
+	var rt = RadarTarget.new()
+	rt.display_name = "銅礦"
+	add_child(rt)
 
 func _on_destroyed() -> void:
 	var pos = global_position

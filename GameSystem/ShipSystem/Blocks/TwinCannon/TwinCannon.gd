@@ -15,6 +15,7 @@ class_name TwinCannon
 @onready var tracking_area: Area2D = $Visual/TrackingArea
 
 var _bullet_manager: BulletManager # DI 注入
+var _ray_manager: RayManager # DI 注入
 var _fire_timer: float = 0.0
 var _fire_left_next: bool = true    # 交替兩管
 var _physics_body: RigidBody2D = null
@@ -72,10 +73,34 @@ func _find_best_target() -> Node2D:
 			continue
 		var d = global_position.distance_squared_to(body.global_position)
 		if d < min_dist_sq:
-			min_dist_sq = d
-			best = body
+			if _is_within_angle_limit(body.global_position):
+				min_dist_sq = d
+				best = body
+	
+	# 飛船砲台視野內沒有敵人時 能夠主動攻擊 被標記的視野外最近敵人
+	if not best:
+		var tagged_enemy = _ray_manager.get_nearest_tagged_enemy(global_position)
+		if tagged_enemy and _is_within_angle_limit(tagged_enemy.global_position):
+			best = tagged_enemy
 	
 	return best
+
+func _is_within_angle_limit(target_pos: Vector2) -> bool:
+	if indicator_angle_degrees >= 360.0:
+		return true
+		
+	var dir_to_target = (target_pos - global_position).normalized()
+	# 砲管預設朝下 (Vector2.DOWN)，所以基準方向是向下
+	var target_angle = dir_to_target.angle()
+	
+	var base_rotation = 0.0
+	if turret_head.get_parent() is Node2D:
+		base_rotation = turret_head.get_parent().global_rotation
+		
+	# 砲管預設朝下，所以要加上 PI/2 來對齊
+	var angle_diff = abs(angle_difference(base_rotation + PI/2, target_angle))
+	return angle_diff <= deg_to_rad(indicator_angle_degrees / 2.0)
+
 
 func _rotate_turret_towards(target_pos: Vector2, delta: float) -> void:
 	var dir_to_target = (target_pos - turret_head.global_position).normalized()

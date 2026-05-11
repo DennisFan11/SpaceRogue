@@ -1,24 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://cx4x1a2b3c4d5"]
+[gd_scene format=3 uid="uid://cx4x1a2b3c4d5"]
 
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.gd" id="1"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockStateMachine.gd" id="2"]
-[ext_resource type="Script" path="res://GameSystem/CombatSystem/Damageable.gd" id="3"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Components/PolyominoShape.gd" id="4"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockOccluder.gd" id="5"]
+[ext_resource type="Script" uid="uid://b08rxeqdqhbxb" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.gd" id="1"]
+[ext_resource type="Script" uid="uid://dyuiqvxblufgq" path="res://GameSystem/ShipSystem/Blocks/Base/BlockStateMachine.gd" id="2"]
+[ext_resource type="Script" uid="uid://6l6f10rtvj1x" path="res://GameSystem/CombatSystem/Damageable.gd" id="3"]
+[ext_resource type="Script" uid="uid://t4tco308tut4" path="res://GameSystem/ShipSystem/Components/PolyominoShape.gd" id="4"]
+[ext_resource type="Script" uid="uid://dmuk67256cibl" path="res://GameSystem/ShipSystem/Blocks/Base/BlockOccluder.gd" id="5"]
 
-[node name="BlockBase" type="Node2D"]
+[node name="BlockBase" type="Node2D" unique_id=250549367]
 script = ExtResource("1")
+mass = 0.3
 
-[node name="BlockStateMachine" type="Node" parent="."]
+[node name="BlockStateMachine" type="Node" parent="." unique_id=1449488214]
 script = ExtResource("2")
 
-[node name="Damageable" type="Node" parent="."]
+[node name="Damageable" type="Node" parent="." unique_id=1252750635]
 script = ExtResource("3")
 
-[node name="PolyominoShape" type="Node2D" parent="."]
+[node name="PolyominoShape" type="Node2D" parent="." unique_id=522031712]
 script = ExtResource("4")
 
-[node name="Visual" type="Node2D" parent="."]
+[node name="Visual" type="Node2D" parent="." unique_id=1425395429]
 
-[node name="BlockOccluder" type="Node2D" parent="."]
+[node name="BlockOccluder" type="Node2D" parent="." unique_id=502010555]
 script = ExtResource("5")

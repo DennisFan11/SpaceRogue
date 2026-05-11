@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://bl5j3jcen0l7o" path="res://GameSystem/BulletSystem/BulletManager.gd" id="14_bm"]
 [ext_resource type="PackedScene" uid="uid://suiksug45cem" path="res://GameSystem/ShipSystem/Blocks/Base/HintRangeManager.tscn" id="15_hint"]
 [ext_resource type="PackedScene" path="res://GameSystem/FogSystem/FogManager.tscn" id="16_fog"]
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/Radar/RayManager.gd" id="17_ray"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hgkpw"]
 
@@ -115,6 +116,9 @@ script = ExtResource("14_bm")
 
 [node name="FogManager" parent="." unique_id=1138045319 instance=ExtResource("16_fog")]
 visible = false
+
+[node name="RayManager" type="Node2D" parent="."]
+script = ExtResource("17_ray")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1616798092]
 

@@ -26,6 +26,12 @@ func _ready() -> void:
 	if damageable:
 		damageable.destroyed.connect(_on_destroyed)
 		
+	var rt = RadarTarget.new()
+	rt.display_name = "蜈蚣節點"
+	if is_head:
+		rt.display_name = "蜈蚣頭部"
+	add_child(rt)
+		
 	call_deferred("_init_segments")
 
 func _init_segments() -> void:

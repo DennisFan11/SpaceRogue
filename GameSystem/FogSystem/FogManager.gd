@@ -11,7 +11,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		hide()
 		return
-	visible = true
+	#visible = true
 		
 	DI.register("_fog_manager", self)
 	_update_shader()

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cny6lhr2skp8p"]
+
+[ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://l0rjvjut4g21" path="res://GameSystem/ShipSystem/Blocks/RadarBlock/RadarBlock.gd" id="2_radar"]
+
+[node name="RadarBlock" unique_id=951847090 instance=ExtResource("1_base")]
+script = ExtResource("2_radar")
+rotation_speed = 1.0
+ray_length = 3000.0
+fire_interval = 0.1
+
+[node name="Antenna" type="Polygon2D" parent="Visual" index="0" unique_id=426161269]
+color = Color(0.2, 0.6, 1, 1)
+polygon = PackedVector2Array(-5, 0, 5, 0, 0, -30)

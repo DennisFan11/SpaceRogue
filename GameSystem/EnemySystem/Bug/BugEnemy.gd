@@ -22,6 +22,10 @@ func _ready() -> void:
 	
 	if damageable:
 		damageable.destroyed.connect(_on_destroyed)
+		
+	var rt = RadarTarget.new()
+	rt.display_name = "小蟲族"
+	add_child(rt)
 
 func _physics_process(delta: float) -> void:
 	var target_pos = _get_target_position()

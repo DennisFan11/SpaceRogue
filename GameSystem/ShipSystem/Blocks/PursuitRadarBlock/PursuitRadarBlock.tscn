@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bbr22xkw3l8kn"]
+
+[ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://b2v16t5eehsur" path="res://GameSystem/ShipSystem/Blocks/PursuitRadarBlock/PursuitRadarBlock.gd" id="2_pursuit"]
+
+[node name="PursuitRadarBlock" unique_id=783207925 instance=ExtResource("1_base")]
+script = ExtResource("2_pursuit")
+pursuit_sweep_angle = 20.0
+sweep_speed = 3.0
+rotation_speed = 1.0
+ray_length = 3000.0
+fire_interval = 0.1
+
+[node name="Antenna" type="Polygon2D" parent="Visual" index="0" unique_id=660457793]
+color = Color(1, 0.2, 0.2, 1)
+polygon = PackedVector2Array(-5, 0, 5, 0, 0, -30)
