@@ -1,15 +1,15 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b4allf7ybwf3g"]
 
 [ext_resource type="PackedScene" uid="uid://cx4x1a2b3c4d5" path="res://GameSystem/ShipSystem/Blocks/Base/BlockBase.tscn" id="1_base"]
-[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/DirectionalRadarBlock/DirectionalRadarBlock.gd" id="2_dir_radar"]
+[ext_resource type="Script" uid="uid://cy0r054nexuwd" path="res://GameSystem/ShipSystem/Blocks/DirectionalRadarBlock/DirectionalRadarBlock.gd" id="2_dir_radar"]
 
-[node name="DirectionalRadarBlock" instance=ExtResource("1_base")]
+[node name="DirectionalRadarBlock" unique_id=698173106 instance=ExtResource("1_base")]
 script = ExtResource("2_dir_radar")
-sweep_angle = 45.0
-sweep_speed = 5.0
+sweep_angle = 15.0
+sweep_speed = 1.0
 ray_length = 3000.0
-fire_interval = 0.05
+fire_interval = 0.1
 
-[node name="Antenna" type="Polygon2D" parent="Visual" index="0"]
+[node name="Antenna" type="Polygon2D" parent="Visual" parent_id_path=PackedInt32Array(1425395429) index="0" unique_id=1188076756]
 color = Color(1, 0.6, 0.2, 1)
 polygon = PackedVector2Array(-5, 0, 5, 0, 0, -30)

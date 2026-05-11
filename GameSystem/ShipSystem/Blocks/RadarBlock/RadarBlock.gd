@@ -4,7 +4,7 @@ class_name RadarBlock
 ## 雷達方塊：360度持續發出射線掃描
 
 @export var rotation_speed: float = 1.0 # 旋轉速度 (弧度/秒)
-@export var ray_length: float = 3000.0
+@export var ray_length: float = 5000.0
 @export var fire_interval: float = 0.1 # 發射間隔 (秒)
 
 var _ray_manager: RayManager # DI 注入

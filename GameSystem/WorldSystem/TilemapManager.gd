@@ -5,7 +5,7 @@ class_name TilemapManager
 ## 地圖管理器：數據中心與生成器協調器
 ## 負責管理全局地圖數據，並提供給 WorldLoader 進行動態加載
 
-const BLOCK_SIZE = 64
+const BLOCK_SIZE = 128
 
 @export_group("Dimensions")
 @export var map_width: int = 100:

@@ -14,7 +14,7 @@ var player_ui_scene: PackedScene = preload("res://GameSystem/PlayerSystem/Player
 var main_camera: Camera2D = null ## 由 ShipTestLoop 設定
 var zoom_target: Vector2 = Vector2.ONE
 const ZOOM_SENSITIVITY = 0.1
-const MIN_ZOOM = 0.1
+const MIN_ZOOM = 0.05
 const MAX_ZOOM = 5.0
 
 func _ready() -> void:

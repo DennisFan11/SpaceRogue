@@ -3,7 +3,7 @@ class_name WorldChunk
 
 ## 單個 Chunk 節點，負責管理特定區域內的瓷磚實體
 
-var chunk_size: int = 16
+var chunk_size: int = 8
 var chunk_pos: Vector2i ## Chunk 座標 (不是網格座標)
 var _tilemap_manager: TilemapManager # DI 注入
 var _player_manager: PlayerManager # DI 注入

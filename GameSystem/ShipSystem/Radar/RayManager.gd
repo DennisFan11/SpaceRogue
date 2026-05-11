@@ -39,43 +39,71 @@ func _process(delta: float) -> void:
 ## origin: 發射起點 (global)
 ## direction: 方向向量 (不需要 normalized)
 ## max_length: 最大射程
-func fire_radar_ray(source: Node2D, origin: Vector2, direction: Vector2, max_length: float, ray_color: Color = Color.GREEN) -> void:
+func fire_radar_ray(source: Node2D, origin: Vector2, direction: Vector2, max_length: float, ray_color: Color = Color.GREEN, penetrate: bool = false, use_dot_markers: bool = false) -> void:
 	var space_state = get_world_2d().direct_space_state
 	var dir_norm = direction.normalized()
 	var target_pos = origin + dir_norm * max_length
-	var query = PhysicsRayQueryParameters2D.create(origin, target_pos)
 	
-	# 碰撞層：敵人和牆體 (TileBlock)
+	var query = PhysicsRayQueryParameters2D.create(origin, target_pos)
 	query.collision_mask = BitmaskManager.LAYER_ENEMY | BitmaskManager.LAYER_WALL
 	
-	var result = space_state.intersect_ray(query)
+	var results = []
+	var exclude_list: Array[RID] = []
 	
+	while true:
+		query.exclude = exclude_list
+		var result = space_state.intersect_ray(query)
+		if not result:
+			break
+			
+		results.append(result)
+		exclude_list.append(result.collider.get_rid())
+		
+		if not penetrate:
+			break
+			
+	# 決定視覺射線的終點
 	var hit_pos = target_pos
-	var hit_obj = null
-	
-	if result:
-		hit_pos = result.position
-		hit_obj = result.collider
+	if not penetrate and not results.is_empty():
+		hit_pos = results[0].position
 		
 	# 繪製射線 (Line2D)
 	_create_visual_ray(source, origin, hit_pos, ray_color)
 	
 	# 建立標記
-	if hit_obj:
-		var name_to_display = hit_obj.name
-		for child in hit_obj.get_children():
-			if child is RadarTarget:
-				name_to_display = child.display_name
-				break
-				
-		if hit_obj.collision_layer & BitmaskManager.LAYER_ENEMY != 0:
-			_create_tag(hit_pos, name_to_display, Color.RED)
-			_tagged_enemies[hit_obj] = (Time.get_ticks_msec() / 1000.0) + RAY_LIFETIME
-		elif hit_obj.collision_layer & BitmaskManager.LAYER_WALL != 0:
-			_create_tag(hit_pos, name_to_display, Color.GREEN)
+	if results.is_empty():
+		# 無碰撞，顯示在射線末端 (僅在非圓點模式下)
+		if not use_dot_markers:
+			_create_tag(target_pos, "無碰撞", Color.GRAY)
 	else:
-		# 無碰撞，顯示在射線末端
-		_create_tag(target_pos, "無碰撞", Color.GRAY)
+		for res in results:
+			var h_pos = res.position
+			var h_obj = res.collider
+			
+			var name_to_display = h_obj.name
+			for child in h_obj.get_children():
+				if child is RadarTarget:
+					name_to_display = child.display_name
+					break
+					
+			if use_dot_markers:
+				var color = Color.GRAY
+				if h_obj.collision_layer & BitmaskManager.LAYER_ENEMY != 0:
+					color = Color.RED
+					_tagged_enemies[h_obj] = (Time.get_ticks_msec() / 1000.0) + RAY_LIFETIME
+				elif h_obj.collision_layer & BitmaskManager.LAYER_WALL != 0:
+					if name_to_display.ends_with("礦"):
+						color = Color.YELLOW
+					else:
+						color = Color.GREEN
+				
+				_create_dot_marker(h_pos, color)
+			else:
+				if h_obj.collision_layer & BitmaskManager.LAYER_ENEMY != 0:
+					_create_tag(h_pos, name_to_display, Color.RED)
+					_tagged_enemies[h_obj] = (Time.get_ticks_msec() / 1000.0) + RAY_LIFETIME
+				elif h_obj.collision_layer & BitmaskManager.LAYER_WALL != 0:
+					_create_tag(h_pos, name_to_display, Color.GREEN)
 
 func _create_visual_ray(source: Node2D, from: Vector2, to: Vector2, color: Color = Color.GREEN) -> void:
 	var line = Line2D.new()
@@ -122,6 +150,33 @@ func _create_tag(pos: Vector2, text: String, color: Color) -> void:
 	# 稍微偏移避免重疊
 	label.position = Vector2(-20, -20)
 	
+	# 標記時效，淡入淡出
+	var tween = create_tween()
+	# 快速淡入
+	tween.tween_property(container, "modulate:a", 1.0, 0.1)
+	# 緩慢淡出
+	tween.tween_property(container, "modulate:a", 0.0, RAY_LIFETIME - 0.1)
+	tween.tween_callback(container.queue_free)
+
+func _create_dot_marker(pos: Vector2, color: Color) -> void:
+	var line = Line2D.new()
+	line.points = [Vector2.ZERO, Vector2(0.1, 0)]
+	line.width = 10.0
+	line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	line.end_cap_mode = Line2D.LINE_CAP_ROUND
+	line.default_color = color
+	
+	var container = Node2D.new()
+	container.global_position = pos
+	container.add_child(line)
+	container.modulate.a = 0.0 # 從透明開始
+	add_child(container)
+	
+	# 設定初始縮放
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		container.scale = Vector2.ONE / camera.zoom
+		
 	# 標記時效，淡入淡出
 	var tween = create_tween()
 	# 快速淡入

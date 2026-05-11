@@ -1,7 +1,7 @@
 extends BaseTileBlock
 class_name StoneTile
 
-## 64x64 岩石瓷磚
+## 基於 TilemapManager.BLOCK_SIZE 大小的岩石瓷磚
 
 func _ready() -> void:
 	super._ready()

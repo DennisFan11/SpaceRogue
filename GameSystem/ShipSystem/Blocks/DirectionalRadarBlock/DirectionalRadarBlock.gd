@@ -2,7 +2,7 @@ extends BlockBase
 
 ## 指向性雷達方塊：來回掃描前方45度
 
-@export var sweep_angle: float = 45.0 # 總掃描角度 (度)
+@export var sweep_angle: float = 15.0 # 總掃描角度 (度)
 @export var sweep_speed: float = 5.0 # 擺動速度
 @export var ray_length: float = 3000.0
 @export var fire_interval: float = 0.05
@@ -32,4 +32,4 @@ func _process(delta: float) -> void:
 		_fire_timer = 0.0
 		var direction = Vector2.DOWN.rotated(global_rotation)
 		if _ray_manager:
-			_ray_manager.fire_radar_ray(self, global_position, direction, ray_length)
+			_ray_manager.fire_radar_ray(self, global_position, direction, ray_length, Color.GREEN, true, true)

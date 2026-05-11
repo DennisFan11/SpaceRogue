@@ -6,9 +6,9 @@
 [node name="RadarBlock" unique_id=951847090 instance=ExtResource("1_base")]
 script = ExtResource("2_radar")
 rotation_speed = 1.0
-ray_length = 3000.0
+ray_length = 5000.0
 fire_interval = 0.1
 
-[node name="Antenna" type="Polygon2D" parent="Visual" index="0" unique_id=426161269]
+[node name="Antenna" type="Polygon2D" parent="Visual" parent_id_path=PackedInt32Array(1425395429) index="0" unique_id=426161269]
 color = Color(0.2, 0.6, 1, 1)
 polygon = PackedVector2Array(-5, 0, 5, 0, 0, -30)

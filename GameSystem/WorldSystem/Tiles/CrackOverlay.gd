@@ -20,7 +20,7 @@ func _ready() -> void:
 func _on_hit(_amount: float, source_position: Vector2) -> void:
 	if source_position != Vector2.ZERO:
 		var local_pos = get_parent().to_local(source_position)
-		var uv = (local_pos / 32.0) * 0.5 + Vector2(0.5, 0.5)
+		var uv = local_pos / float(TilemapManager.BLOCK_SIZE) + Vector2(0.5, 0.5)
 		uv.x = clamp(uv.x, 0.0, 1.0)
 		uv.y = clamp(uv.y, 0.0, 1.0)
 		
