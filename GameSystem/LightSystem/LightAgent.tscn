@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://4texakh2fluf"]
+
+[ext_resource type="Script" path="res://GameSystem/LightSystem/LightAgent.gd" id="1_agent"]
+
+[node name="LightAgent" type="Node2D"]
+script = ExtResource("1_agent")

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://1gs46y0jdsll" path="res://GameSystem/PlayerSystem/Player.gd" id="1_play"]
 [ext_resource type="Script" uid="uid://dbv0pwiatgvjd" path="res://GameSystem/PlayerSystem/Components/Interactor.gd" id="2_inter"]
 [ext_resource type="Script" uid="uid://d0y3180c4gv5t" path="res://GameSystem/ResourceSystem/Components/ResourceTether.gd" id="3_teth"]
+[ext_resource type="PackedScene" path="res://GameSystem/LightSystem/LightAgent.tscn" id="4_light"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p1"]
 radius = 16.0
@@ -10,8 +11,6 @@ radius = 16.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_p2"]
 radius = 40.0
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wjwr2"]
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
 [node name="Player" type="CharacterBody2D" unique_id=20812579]
 script = ExtResource("1_play")
@@ -39,5 +38,4 @@ shape = SubResource("CircleShape2D_p2")
 [node name="ResourceTether" type="Node2D" parent="." unique_id=1001116089]
 script = ExtResource("3_teth")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1168639606]
-occluder = SubResource("OccluderPolygon2D_wjwr2")
+[node name="LightAgent" parent="." unique_id=1168639606 instance=ExtResource("4_light")]

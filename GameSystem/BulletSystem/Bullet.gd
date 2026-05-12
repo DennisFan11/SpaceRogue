@@ -3,8 +3,8 @@ class_name Bullet
 
 ## 子彈：飛行並碰撞目標後呼叫 CombatManager 施加傷害
 
-@export var speed: float = 500.0
-@export var max_range: float = 600.0
+@export var speed: float = 3000.0
+@export var max_range: float = 6000.0
 @export var damage: float = 50.0
 @export var team: int = Team.PLAYER
 

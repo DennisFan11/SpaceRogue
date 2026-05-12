@@ -1,22 +1,25 @@
 [gd_scene format=3 uid="uid://bullet"]
 
-[ext_resource type="Script" path="res://GameSystem/BulletSystem/Bullet.gd" id="1_bullet"]
+[ext_resource type="Script" uid="uid://d0sxn8aqnd7br" path="res://GameSystem/BulletSystem/Bullet.gd" id="1_bullet"]
+[ext_resource type="PackedScene" uid="uid://4texakh2fluf" path="res://GameSystem/LightSystem/LightAgent.tscn" id="2_light"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 5.0
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Area2D" unique_id=95129045]
 script = ExtResource("1_bullet")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1647446919]
 shape = SubResource("CircleShape2D_1")
 
-[node name="Visual" type="Node2D" parent="."]
+[node name="Visual" type="Node2D" parent="." unique_id=264881964]
 
-[node name="Body" type="Polygon2D" parent="Visual"]
-color = Color(1.0, 0.85, 0.2, 1)
+[node name="Body" type="Polygon2D" parent="Visual" unique_id=1293332770]
+color = Color(1, 0.85, 0.2, 1)
 polygon = PackedVector2Array(-3, -8, 3, -8, 3, 8, -3, 8)
 
-[node name="Glow" type="Polygon2D" parent="Visual"]
-color = Color(1.0, 0.5, 0.1, 0.5)
+[node name="Glow" type="Polygon2D" parent="Visual" unique_id=22643579]
+color = Color(1, 0.5, 0.1, 0.5)
 polygon = PackedVector2Array(-5, -10, 5, -10, 5, 10, -5, 10)
+
+[node name="LightAgent" parent="." unique_id=1465157336 instance=ExtResource("2_light")]

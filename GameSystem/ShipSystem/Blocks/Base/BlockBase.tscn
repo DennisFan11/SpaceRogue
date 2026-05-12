@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dyuiqvxblufgq" path="res://GameSystem/ShipSystem/Blocks/Base/BlockStateMachine.gd" id="2"]
 [ext_resource type="Script" uid="uid://6l6f10rtvj1x" path="res://GameSystem/CombatSystem/Damageable.gd" id="3"]
 [ext_resource type="Script" uid="uid://t4tco308tut4" path="res://GameSystem/ShipSystem/Components/PolyominoShape.gd" id="4"]
-[ext_resource type="Script" uid="uid://dmuk67256cibl" path="res://GameSystem/ShipSystem/Blocks/Base/BlockOccluder.gd" id="5"]
+[ext_resource type="Script" path="res://GameSystem/ShipSystem/Blocks/Base/BlockLight.gd" id="5"]
 
 [node name="BlockBase" type="Node2D" unique_id=250549367]
 script = ExtResource("1")
@@ -21,5 +21,5 @@ script = ExtResource("4")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1425395429]
 
-[node name="BlockOccluder" type="Node2D" parent="." unique_id=502010555]
+[node name="BlockLight" type="Node2D" parent="." unique_id=502010555]
 script = ExtResource("5")
